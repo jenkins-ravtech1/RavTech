@@ -80,23 +80,26 @@
       }
 
       .nav-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
         gap: 10px;
         padding: 15px;
+        width: 100%;
       }
 
       .nav-btn {
-        padding: 10px 20px;
+        padding: 12px 22px;
         background: var(--white);
         border: 2px solid var(--primary);
         border-radius: 25px;
         color: var(--primary);
         font-weight: 600;
+        font-size: 1.05rem; /* Enlarged text */
+        line-height: 1.2;
         cursor: pointer;
         transition: all 0.3s ease;
         text-decoration: none;
+        width: 100%; /* Fill grid cell */
       }
 
       .nav-btn:hover,
@@ -348,11 +351,10 @@
         }
 
         .nav-container {
-          flex-direction: column;
+          grid-template-columns: 1fr;
         }
 
         .nav-btn {
-          width: 100%;
           text-align: center;
         }
       }
@@ -595,12 +597,12 @@
             <p><strong>Choose based on project type:</strong></p>
 
             <div class="command-box">
-                <br />
-              # For full-stack projects 
+              <br />
+              # For full-stack projects
               <br />
               /architect create-doc fullstack-architecture
               <br />
-              # For backend-only 
+              # For backend-only
               <br />
               /architect create-doc architecture
               <br />
@@ -655,12 +657,12 @@
             <p>In your IDE, shard the documents for manageable development:</p>
 
             <div class="command-box">
-                <br />
-              # Option A: Using PO agent 
-              <br /> @po shard docs/prd.md to prd 
-              <br />@po shard docs/architecture.md to architecture 
-              <br /># Option B: Manual with task
-              <br /># Drag shard-doc task + docs/prd.md into chat
+              <br />
+              # Option A: Using PO agent
+              <br />
+              @po shard docs/prd.md to prd <br />@po shard docs/architecture.md
+              to architecture <br /># Option B: Manual with task <br /># Drag
+              shard-doc task + docs/prd.md into chat
             </div>
 
             <div class="output-box">
@@ -866,11 +868,9 @@
             <p><strong>Start NEW CLEAN CHAT</strong></p>
 
             <div class="command-box">
-              <br /># For sharded PRD (most common) 
-              <br />@sm *create 
-              <br /># For brownfield
-              without sharding 
-              <br />@sm # Then use brownfield-create-story task
+              <br /># For sharded PRD (most common) <br />@sm *create <br />#
+              For brownfield without sharding <br />@sm # Then use
+              brownfield-create-story task
             </div>
 
             <div class="output-box">
@@ -898,9 +898,8 @@
             <p><strong>Start NEW CLEAN CHAT</strong></p>
 
             <div class="command-box">
-              @dev # Agent asks which story to implement 
-              <br /># Provide story file
-              content or path
+              @dev # Agent asks which story to implement
+              <br /># Provide story file content or path
             </div>
 
             <div class="output-box">
