@@ -7,15 +7,53 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       /* Minimal custom CSS left after Tailwind migration */
-      * { margin:0; padding:0; box-sizing:border-box; }
-      section { display:none; animation: fadeIn 0.45s ease; }
-      section.active { display:block; }
-      .tab-button { color: rgb(226 232 240); }
-      .tab-button.active { background:linear-gradient(135deg,rgb(59 130 246) 0%,rgb(37 99 235) 100%); color:#fff; border:2px solid rgb(59 130 246); box-shadow:0 4px 15px rgba(59,130,246,.3); transform:translateY(-1px); }
-      .tab-button:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(0,0,0,.1); background:#475569; }
-      @keyframes fadeIn { from { opacity:0; transform:translateY(14px);} to { opacity:1; transform:translateY(0);} }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      section {
+        display: none;
+        animation: fadeIn 0.45s ease;
+      }
+      section.active {
+        display: block;
+      }
+      .tab-button {
+        color: rgb(226 232 240);
+      }
+      .tab-button.active {
+        background: linear-gradient(
+          135deg,
+          rgb(59 130 246) 0%,
+          rgb(37 99 235) 100%
+        );
+        color: #fff;
+        border: 2px solid rgb(59 130 246);
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        transform: translateY(-1px);
+      }
+      .tab-button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        background: #475569;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
       /* Prompt marker for command boxes */
-      .cmd-line:before { content:"$ "; color:#34d399; font-weight:600; }
+      .cmd-line:before {
+        content: "$ ";
+        color: #34d399;
+        font-weight: 600;
+      }
     </style>
   </head>
   <body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
@@ -47,40 +85,68 @@
       <nav
         class="mb-8 bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl shadow-lg p-2 border border-slate-600 sticky top-2 z-50"
       >
-        <div class="flex flex-wrap gap-1">
+        <div
+          class="flex flex-wrap gap-1"
+          role="tablist"
+          aria-label="BMAD workflow sections"
+        >
           <button
-            onclick="showSection('intro')"
-            class="tab-button active px-5 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-slate-600 border-2 border-transparent hover:border-slate-500 flex items-center gap-2"
+            id="tab-intro"
+            onclick="showSection(event,'intro')"
+            role="tab"
+            aria-controls="intro"
+            aria-selected="true"
+            class="tab-button active px-5 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-slate-600 border-2 border-transparent hover:border-slate-500 flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
           >
             <span class="text-lg">📚</span> Intro
           </button>
           <button
-            onclick="showSection('greenfield')"
-            class="tab-button px-5 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-slate-600 border-2 border-transparent hover:border-slate-500 flex items-center gap-2"
+            id="tab-greenfield"
+            onclick="showSection(event,'greenfield')"
+            role="tab"
+            aria-controls="greenfield"
+            aria-selected="false"
+            class="tab-button px-5 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-slate-600 border-2 border-transparent hover:border-slate-500 flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
           >
             <span class="text-lg">🌱</span> Greenfield
           </button>
           <button
-            onclick="showSection('brownfield')"
-            class="tab-button px-5 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-slate-600 border-2 border-transparent hover:border-slate-500 flex items-center gap-2"
+            id="tab-brownfield"
+            onclick="showSection(event,'brownfield')"
+            role="tab"
+            aria-controls="brownfield"
+            aria-selected="false"
+            class="tab-button px-5 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-slate-600 border-2 border-transparent hover:border-slate-500 flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
           >
             <span class="text-lg">🏗️</span> Brownfield
           </button>
           <button
-            onclick="showSection('development')"
-            class="tab-button px-5 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-slate-600 border-2 border-transparent hover:border-slate-500 flex items-center gap-2"
+            id="tab-development"
+            onclick="showSection(event,'development')"
+            role="tab"
+            aria-controls="development"
+            aria-selected="false"
+            class="tab-button px-5 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-slate-600 border-2 border-transparent hover:border-slate-500 flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
           >
             <span class="text-lg">🔄</span> Dev Cycle
           </button>
           <button
-            onclick="showSection('commands')"
-            class="tab-button px-5 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-slate-600 border-2 border-transparent hover:border-slate-500 flex items-center gap-2"
+            id="tab-commands"
+            onclick="showSection(event,'commands')"
+            role="tab"
+            aria-controls="commands"
+            aria-selected="false"
+            class="tab-button px-5 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-slate-600 border-2 border-transparent hover:border-slate-500 flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
           >
             <span class="text-lg">⌨️</span> Commands
           </button>
           <button
-            onclick="showSection('documents')"
-            class="tab-button px-5 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-slate-600 border-2 border-transparent hover:border-slate-500 flex items-center gap-2"
+            id="tab-documents"
+            onclick="showSection(event,'documents')"
+            role="tab"
+            aria-controls="documents"
+            aria-selected="false"
+            class="tab-button px-5 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-slate-600 border-2 border-transparent hover:border-slate-500 flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
           >
             <span class="text-lg">📄</span> Documents
           </button>
@@ -88,37 +154,127 @@
       </nav>
     </div>
     <div class="max-w-7xl mx-auto px-4 pb-16">
-      <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl ring-1 ring-black/5 p-10 lg:p-14 space-y-20">
+      <div
+        class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl ring-1 ring-black/5 p-10 lg:p-14 space-y-20"
+      >
         <!-- Introduction Section -->
-        <section id="intro" class="active space-y-10">
-          <h2 class="text-3xl font-bold tracking-tight bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent mb-6 flex items-center gap-3">📚 Introduction to BMAD Method</h2>
+        <section
+          id="intro"
+          role="tabpanel"
+          aria-labelledby="tab-intro"
+          class="active space-y-10"
+        >
+          <h2
+            class="text-3xl font-bold tracking-tight bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent mb-6 flex items-center gap-3"
+          >
+            📚 Introduction to BMAD Method
+          </h2>
 
-          <div class="rounded-xl border border-sky-200/70 bg-sky-50/80 px-6 py-5 shadow-sm">
-            <p class="text-slate-800 font-medium"><span class="font-semibold text-sky-700">What is BMAD?</span> The Breakthrough Method of Agile AI-driven Development – a framework that combines AI agents with Agile methodologies to accelerate software delivery.</p>
+          <div
+            class="rounded-xl border border-sky-200/70 bg-sky-50/80 px-6 py-5 shadow-sm"
+          >
+            <p class="text-slate-800 font-medium">
+              <span class="font-semibold text-sky-700">What is BMAD?</span> The
+              Breakthrough Method of Agile AI-driven Development – a framework
+              that combines AI agents with Agile methodologies to accelerate
+              software delivery.
+            </p>
           </div>
 
-          <h3 class="text-2xl font-semibold text-slate-800 flex items-center gap-3">Key Concepts for Beginners</h3>
+          <h3
+            class="text-2xl font-semibold text-slate-800 flex items-center gap-3"
+          >
+            Key Concepts for Beginners
+          </h3>
 
-          <div class="group rounded-xl bg-gradient-to-br from-slate-50 to-white border border-slate-200/80 shadow-sm px-6 py-6 transition hover:shadow-md relative overflow-hidden">
-            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition pointer-events-none bg-[radial-gradient(circle_at_30%_40%,rgba(59,130,246,0.15),transparent_60%)]"></div>
-            <h4 class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2">🤖 AI Agents</h4>
-            <p class="text-slate-600 mb-4">Specialized AI personalities that handle different roles in development:</p>
+          <div
+            class="group rounded-xl bg-gradient-to-br from-slate-50 to-white border border-slate-200/80 shadow-sm px-6 py-6 transition hover:shadow-md relative overflow-hidden"
+          >
+            <div
+              class="absolute inset-0 opacity-0 group-hover:opacity-100 transition pointer-events-none bg-[radial-gradient(circle_at_30%_40%,rgba(59,130,246,0.15),transparent_60%)]"
+            ></div>
+            <h4
+              class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2"
+            >
+              🤖 AI Agents
+            </h4>
+            <p class="text-slate-600 mb-4">
+              Specialized AI personalities that handle different roles in
+              development:
+            </p>
             <ul class="space-y-2 text-slate-700">
-              <li><span class="inline-block bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full mr-2">Analyst</span> Market research, brainstorming, project analysis</li>
-              <li><span class="inline-block bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full mr-2">PM</span> Product Requirements Documents (PRD)</li>
-              <li><span class="inline-block bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full mr-2">UX Expert</span> UI/UX specifications and design</li>
-              <li><span class="inline-block bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full mr-2">Architect</span> Technical architecture and system design</li>
-              <li><span class="inline-block bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full mr-2">PO</span> Product Owner validation and document sharding</li>
-              <li><span class="inline-block bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full mr-2">SM</span> Scrum Master story creation</li>
-              <li><span class="inline-block bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full mr-2">Dev</span> Implementation</li>
-              <li><span class="inline-block bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full mr-2">QA</span> Quality Assurance & code review</li>
+              <li>
+                <span
+                  class="inline-block bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full mr-2"
+                  >Analyst</span
+                >
+                Market research, brainstorming, project analysis
+              </li>
+              <li>
+                <span
+                  class="inline-block bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full mr-2"
+                  >PM</span
+                >
+                Product Requirements Documents (PRD)
+              </li>
+              <li>
+                <span
+                  class="inline-block bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full mr-2"
+                  >UX Expert</span
+                >
+                UI/UX specifications and design
+              </li>
+              <li>
+                <span
+                  class="inline-block bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full mr-2"
+                  >Architect</span
+                >
+                Technical architecture and system design
+              </li>
+              <li>
+                <span
+                  class="inline-block bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full mr-2"
+                  >PO</span
+                >
+                Product Owner validation and document sharding
+              </li>
+              <li>
+                <span
+                  class="inline-block bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full mr-2"
+                  >SM</span
+                >
+                Scrum Master story creation
+              </li>
+              <li>
+                <span
+                  class="inline-block bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full mr-2"
+                  >Dev</span
+                >
+                Implementation
+              </li>
+              <li>
+                <span
+                  class="inline-block bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full mr-2"
+                  >QA</span
+                >
+                Quality Assurance & code review
+              </li>
             </ul>
           </div>
 
           <div class="grid gap-6 md:grid-cols-2">
-            <div class="rounded-xl bg-white/80 backdrop-blur-sm ring-1 ring-slate-200 p-6 shadow-sm">
-              <h4 class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2">🌱 Greenfield Projects</h4>
-              <p class="text-slate-600 mb-3"><span class="font-semibold text-slate-700">Definition:</span> Building from scratch</p>
+            <div
+              class="rounded-xl bg-white/80 backdrop-blur-sm ring-1 ring-slate-200 p-6 shadow-sm"
+            >
+              <h4
+                class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2"
+              >
+                🌱 Greenfield Projects
+              </h4>
+              <p class="text-slate-600 mb-3">
+                <span class="font-semibold text-slate-700">Definition:</span>
+                Building from scratch
+              </p>
               <ul class="list-disc ml-5 space-y-1 text-slate-700">
                 <li>No existing codebase</li>
                 <li>Freedom in tech choices</li>
@@ -126,9 +282,18 @@
                 <li>Examples: New SaaS app, MVP, Prototype</li>
               </ul>
             </div>
-            <div class="rounded-xl bg-white/80 backdrop-blur-sm ring-1 ring-slate-200 p-6 shadow-sm">
-              <h4 class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2">🏗️ Brownfield Projects</h4>
-              <p class="text-slate-600 mb-3"><span class="font-semibold text-slate-700">Definition:</span> Enhancing existing systems</p>
+            <div
+              class="rounded-xl bg-white/80 backdrop-blur-sm ring-1 ring-slate-200 p-6 shadow-sm"
+            >
+              <h4
+                class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2"
+              >
+                🏗️ Brownfield Projects
+              </h4>
+              <p class="text-slate-600 mb-3">
+                <span class="font-semibold text-slate-700">Definition:</span>
+                Enhancing existing systems
+              </p>
               <ul class="list-disc ml-5 space-y-1 text-slate-700">
                 <li>Working with existing codebase</li>
                 <li>Respect current architecture</li>
@@ -139,27 +304,51 @@
           </div>
 
           <div class="text-center">
-            <div class="inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-8 py-3 text-lg font-semibold shadow-md ring-1 ring-emerald-400/50">
+            <div
+              class="inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-8 py-3 text-lg font-semibold shadow-md ring-1 ring-emerald-400/50"
+            >
               <span class="animate-pulse">⚡</span>
               <span>Two-Phase Approach</span>
             </div>
           </div>
 
           <div class="grid md:grid-cols-2 gap-6">
-            <div class="rounded-xl border border-slate-200 bg-white/70 p-6 shadow-sm hover:shadow-md transition group relative overflow-hidden">
-              <div class="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-br from-blue-50 via-transparent to-transparent pointer-events-none"></div>
-              <h4 class="text-slate-800 font-semibold mb-2">Phase 1: Planning <span class="text-slate-400 text-sm">(Web UI - Cost Effective)</span></h4>
-              <p class="text-slate-600 mb-3">Use large context windows (Gemini, ChatGPT, Claude) to:</p>
+            <div
+              class="rounded-xl border border-slate-200 bg-white/70 p-6 shadow-sm hover:shadow-md transition group relative overflow-hidden"
+            >
+              <div
+                class="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-br from-blue-50 via-transparent to-transparent pointer-events-none"
+              ></div>
+              <h4 class="text-slate-800 font-semibold mb-2">
+                Phase 1: Planning
+                <span class="text-slate-400 text-sm"
+                  >(Web UI - Cost Effective)</span
+                >
+              </h4>
+              <p class="text-slate-600 mb-3">
+                Use large context windows (Gemini, ChatGPT, Claude) to:
+              </p>
               <ul class="list-disc ml-5 space-y-1 text-slate-700 text-sm">
                 <li>Generate comprehensive documents (PRD, Architecture)</li>
                 <li>Multi-agent brainstorming</li>
                 <li>Create once, reuse throughout development</li>
               </ul>
             </div>
-            <div class="rounded-xl border border-slate-200 bg-white/70 p-6 shadow-sm hover:shadow-md transition group relative overflow-hidden">
-              <div class="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-br from-blue-50 via-transparent to-transparent pointer-events-none"></div>
-              <h4 class="text-slate-800 font-semibold mb-2">Phase 2: Development <span class="text-slate-400 text-sm">(IDE - Implementation)</span></h4>
-              <p class="text-slate-600 mb-3">Use IDE with AI capabilities (Cursor, VS Code with Copilot) to:</p>
+            <div
+              class="rounded-xl border border-slate-200 bg-white/70 p-6 shadow-sm hover:shadow-md transition group relative overflow-hidden"
+            >
+              <div
+                class="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-br from-blue-50 via-transparent to-transparent pointer-events-none"
+              ></div>
+              <h4 class="text-slate-800 font-semibold mb-2">
+                Phase 2: Development
+                <span class="text-slate-400 text-sm"
+                  >(IDE - Implementation)</span
+                >
+              </h4>
+              <p class="text-slate-600 mb-3">
+                Use IDE with AI capabilities (Cursor, VS Code with Copilot) to:
+              </p>
               <ul class="list-disc ml-5 space-y-1 text-slate-700 text-sm">
                 <li>Shard documents into manageable pieces</li>
                 <li>Execute focused SM → Dev cycles</li>
@@ -171,15 +360,44 @@
         </section>
 
         <!-- Greenfield Section -->
-        <section id="greenfield" class="space-y-10">
-          <h2 class="text-3xl font-bold tracking-tight bg-gradient-to-r from-emerald-600 to-emerald-500 bg-clip-text text-transparent mb-3 flex items-center gap-3">🌱 Greenfield Project Workflow</h2>
-          <p class="text-slate-600 text-lg">Building a new project from scratch – full planning and development process.</p>
+        <section
+          id="greenfield"
+          role="tabpanel"
+          aria-labelledby="tab-greenfield"
+          class="space-y-10"
+        >
+          <h2
+            class="text-3xl font-bold tracking-tight bg-gradient-to-r from-emerald-600 to-emerald-500 bg-clip-text text-transparent mb-3 flex items-center gap-3"
+          >
+            🌱 Greenfield Project Workflow
+          </h2>
+          <p class="text-slate-600 text-lg">
+            Building a new project from scratch – full planning and development
+            process.
+          </p>
 
-          <div class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 text-sm font-semibold shadow ring-1 ring-blue-400/50">📋 Phase 1: Planning (Web UI Recommended)</div>
+          <div
+            class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 text-sm font-semibold shadow ring-1 ring-blue-400/50"
+          >
+            📋 Phase 1: Planning (Web UI Recommended)
+          </div>
 
-          <div class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4">
-            <h3 class="text-xl font-semibold flex items-center gap-3 text-slate-800"><span class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base">1</span> Project Analysis & Brief</h3>
-            <span class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">Analyst</span>
+          <div
+            class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4"
+          >
+            <h3
+              class="text-xl font-semibold flex items-center gap-3 text-slate-800"
+            >
+              <span
+                class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base"
+                >1</span
+              >
+              Project Analysis & Brief
+            </h3>
+            <span
+              class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full"
+              >Analyst</span
+            >
 
             <p><strong>Optional Steps:</strong></p>
             <ul>
@@ -188,229 +406,686 @@
             </ul>
 
             <div class="font-mono text-sm space-y-2">
-              <div class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800">/analyst brainstorm "I want to build a task management app"</div>
-              <div class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800">/analyst create-project-brief</div>
+              <div
+                class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800"
+              >
+                /analyst brainstorm "I want to build a task management app"
+              </div>
+              <div
+                class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800"
+              >
+                /analyst create-project-brief
+              </div>
             </div>
-            <div class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm">
-              <p class="font-semibold mb-1">Output: <span class="inline-block bg-amber-500 text-white text-[11px] font-semibold px-2 py-0.5 rounded-full align-middle">project-brief.md</span></p>
+            <div
+              class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"
+            >
+              <p class="font-semibold mb-1">
+                Output:
+                <span
+                  class="inline-block bg-amber-500 text-white text-[11px] font-semibold px-2 py-0.5 rounded-full align-middle"
+                  >project-brief.md</span
+                >
+              </p>
               <p>Problem statement, target users, success metrics, MVP scope</p>
             </div>
-            <div class="rounded-lg bg-amber-50 border-l-4 border-amber-400 px-4 py-3 text-amber-800 text-sm"><span class="font-semibold">Important:</span> Save as <code class="font-mono text-amber-700">docs/project-brief.md</code></div>
+            <div
+              class="rounded-lg bg-amber-50 border-l-4 border-amber-400 px-4 py-3 text-amber-800 text-sm"
+            >
+              <span class="font-semibold">Important:</span> Save as
+              <code class="font-mono text-amber-700"
+                >docs/project-brief.md</code
+              >
+            </div>
           </div>
 
-          <div class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4">
-            <h3 class="text-xl font-semibold flex items-center gap-3 text-slate-800"><span class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base">2</span> Product Requirements Document</h3>
-            <span class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">PM</span>
+          <div
+            class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4"
+          >
+            <h3
+              class="text-xl font-semibold flex items-center gap-3 text-slate-800"
+            >
+              <span
+                class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base"
+                >2</span
+              >
+              Product Requirements Document
+            </h3>
+            <span
+              class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full"
+              >PM</span
+            >
 
             <div class="font-mono text-sm space-y-2">
-              <div class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800">/pm create-doc prd</div>
+              <div
+                class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800"
+              >
+                /pm create-doc prd
+              </div>
             </div>
-            <div class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm">
-              <p class="font-semibold mb-1">Output: <span class="inline-block bg-amber-500 text-white text-[11px] font-semibold px-2 py-0.5 rounded-full align-middle">prd.md</span></p>
-              <p>Goals, requirements, user stories, epics, technical assumptions</p>
+            <div
+              class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"
+            >
+              <p class="font-semibold mb-1">
+                Output:
+                <span
+                  class="inline-block bg-amber-500 text-white text-[11px] font-semibold px-2 py-0.5 rounded-full align-middle"
+                  >prd.md</span
+                >
+              </p>
+              <p>
+                Goals, requirements, user stories, epics, technical assumptions
+              </p>
             </div>
-            <div class="rounded-lg bg-amber-50 border-l-4 border-amber-400 px-4 py-3 text-amber-800 text-sm"><span class="font-semibold">Important:</span> Save as <code class="font-mono text-amber-700">docs/prd.md</code></div>
+            <div
+              class="rounded-lg bg-amber-50 border-l-4 border-amber-400 px-4 py-3 text-amber-800 text-sm"
+            >
+              <span class="font-semibold">Important:</span> Save as
+              <code class="font-mono text-amber-700">docs/prd.md</code>
+            </div>
           </div>
 
-          <div class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4">
-            <h3 class="text-xl font-semibold flex items-center gap-3 text-slate-800"><span class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base">3</span> UI/UX Specification (If UI Required)</h3>
-            <span class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">UX Expert</span>
+          <div
+            class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4"
+          >
+            <h3
+              class="text-xl font-semibold flex items-center gap-3 text-slate-800"
+            >
+              <span
+                class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base"
+                >3</span
+              >
+              UI/UX Specification (If UI Required)
+            </h3>
+            <span
+              class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full"
+              >UX Expert</span
+            >
 
             <div class="font-mono text-sm space-y-2">
-              <div class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800">/ux-expert create-front-end-spec</div>
+              <div
+                class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800"
+              >
+                /ux-expert create-front-end-spec
+              </div>
             </div>
-            <div class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm">
-              <p class="font-semibold mb-1">Output: <span class="inline-block bg-amber-500 text-white text-[11px] font-semibold px-2 py-0.5 rounded-full align-middle">front-end-spec.md</span></p>
+            <div
+              class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"
+            >
+              <p class="font-semibold mb-1">
+                Output:
+                <span
+                  class="inline-block bg-amber-500 text-white text-[11px] font-semibold px-2 py-0.5 rounded-full align-middle"
+                  >front-end-spec.md</span
+                >
+              </p>
               <p>User flows, wireframes, component library, design system</p>
             </div>
-            <div class="rounded-lg bg-sky-50 border-l-4 border-sky-400 px-4 py-3 text-sky-800 text-sm space-y-2"><p><span class="font-semibold">Optional:</span> Generate AI UI prompt for v0 or Lovable</p><div class="cmd-line bg-slate-900/90 text-slate-100 px-3 py-1.5 rounded-md border border-slate-800 inline-block text-xs">/ux-expert generate-ui-prompt</div></div>
-            <div class="rounded-lg bg-amber-50 border-l-4 border-amber-400 px-4 py-3 text-amber-800 text-sm"><span class="font-semibold">Important:</span> Save as <code class="font-mono text-amber-700">docs/front-end-spec.md</code></div>
+            <div
+              class="rounded-lg bg-sky-50 border-l-4 border-sky-400 px-4 py-3 text-sky-800 text-sm space-y-2"
+            >
+              <p>
+                <span class="font-semibold">Optional:</span> Generate AI UI
+                prompt for v0 or Lovable
+              </p>
+              <div
+                class="cmd-line bg-slate-900/90 text-slate-100 px-3 py-1.5 rounded-md border border-slate-800 inline-block text-xs"
+              >
+                /ux-expert generate-ui-prompt
+              </div>
+            </div>
+            <div
+              class="rounded-lg bg-amber-50 border-l-4 border-amber-400 px-4 py-3 text-amber-800 text-sm"
+            >
+              <span class="font-semibold">Important:</span> Save as
+              <code class="font-mono text-amber-700"
+                >docs/front-end-spec.md</code
+              >
+            </div>
           </div>
 
-          <div class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4">
-            <h3 class="text-xl font-semibold flex items-center gap-3 text-slate-800"><span class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base">4</span> Technical Architecture</h3>
-            <span class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">Architect</span>
+          <div
+            class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4"
+          >
+            <h3
+              class="text-xl font-semibold flex items-center gap-3 text-slate-800"
+            >
+              <span
+                class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base"
+                >4</span
+              >
+              Technical Architecture
+            </h3>
+            <span
+              class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full"
+              >Architect</span
+            >
 
             <p><strong>Choose based on project type:</strong></p>
 
-            <div class="cmd-line whitespace-pre leading-relaxed bg-slate-900/90 text-slate-100 px-4 py-3 rounded-lg border border-slate-800 font-mono text-xs md:text-sm">
-# For full-stack projects
-/architect create-doc fullstack-architecture
-# For backend-only
-/architect create-doc architecture
-# For frontend-only
-/architect create-doc front-end-architecture</div>
-            <div class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm">
-              <p class="font-semibold mb-1">Output: <span class="inline-block bg-amber-500 text-white text-[11px] font-semibold px-2 py-0.5 rounded-full align-middle">architecture.md</span> or <span class="inline-block bg-amber-500 text-white text-[11px] font-semibold px-2 py-0.5 rounded-full align-middle">fullstack-architecture.md</span></p>
-              <p>Tech stack, components, database schema, API specs, deployment</p>
+            <div
+              class="cmd-line whitespace-pre leading-relaxed bg-slate-900/90 text-slate-100 px-4 py-3 rounded-lg border border-slate-800 font-mono text-xs md:text-sm"
+            >
+              # For full-stack projects /architect create-doc
+              fullstack-architecture # For backend-only /architect create-doc
+              architecture # For frontend-only /architect create-doc
+              front-end-architecture
             </div>
-            <div class="rounded-lg bg-amber-50 border-l-4 border-amber-400 px-4 py-3 text-amber-800 text-sm"><span class="font-semibold">Important:</span> Save as <code class="font-mono text-amber-700">docs/architecture.md</code> or <code class="font-mono text-amber-700">docs/fullstack-architecture.md</code></div>
+            <div
+              class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"
+            >
+              <p class="font-semibold mb-1">
+                Output:
+                <span
+                  class="inline-block bg-amber-500 text-white text-[11px] font-semibold px-2 py-0.5 rounded-full align-middle"
+                  >architecture.md</span
+                >
+                or
+                <span
+                  class="inline-block bg-amber-500 text-white text-[11px] font-semibold px-2 py-0.5 rounded-full align-middle"
+                  >fullstack-architecture.md</span
+                >
+              </p>
+              <p>
+                Tech stack, components, database schema, API specs, deployment
+              </p>
+            </div>
+            <div
+              class="rounded-lg bg-amber-50 border-l-4 border-amber-400 px-4 py-3 text-amber-800 text-sm"
+            >
+              <span class="font-semibold">Important:</span> Save as
+              <code class="font-mono text-amber-700">docs/architecture.md</code>
+              or
+              <code class="font-mono text-amber-700"
+                >docs/fullstack-architecture.md</code
+              >
+            </div>
           </div>
 
-          <div class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4">
-            <h3 class="text-xl font-semibold flex items-center gap-3 text-slate-800"><span class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base">5</span> Validation</h3>
-            <span class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">PO</span>
+          <div
+            class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4"
+          >
+            <h3
+              class="text-xl font-semibold flex items-center gap-3 text-slate-800"
+            >
+              <span
+                class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base"
+                >5</span
+              >
+              Validation
+            </h3>
+            <span
+              class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full"
+              >PO</span
+            >
 
-            <div class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800 font-mono text-sm">/po execute-checklist-po</div>
-            <div class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm">
-              <p class="font-semibold mb-1">Output: Validation report with pass/fail items</p>
+            <div
+              class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800 font-mono text-sm"
+            >
+              /po execute-checklist-po
+            </div>
+            <div
+              class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"
+            >
+              <p class="font-semibold mb-1">
+                Output: Validation report with pass/fail items
+              </p>
               <p>May require returning to previous agents to fix issues</p>
             </div>
           </div>
 
-          <div class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-6 py-2 text-sm font-semibold shadow ring-1 ring-emerald-400/50">💻 Phase 2: Development (Switch to IDE)</div>
+          <div
+            class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-6 py-2 text-sm font-semibold shadow ring-1 ring-emerald-400/50"
+          >
+            💻 Phase 2: Development (Switch to IDE)
+          </div>
 
-          <div class="rounded-lg bg-amber-50 border-l-4 border-amber-400 px-4 py-3 text-amber-800 text-sm"><span class="font-semibold">Critical Transition:</span> You MUST switch to your IDE (Cursor, VS Code, etc.) for the development phase. Web UI cannot handle file operations.</div>
+          <div
+            class="rounded-lg bg-amber-50 border-l-4 border-amber-400 px-4 py-3 text-amber-800 text-sm"
+          >
+            <span class="font-semibold">Critical Transition:</span> You MUST
+            switch to your IDE (Cursor, VS Code, etc.) for the development
+            phase. Web UI cannot handle file operations.
+          </div>
 
-          <div class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4">
-            <h3 class="text-xl font-semibold flex items-center gap-3 text-slate-800"><span class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base">6</span> Document Sharding</h3>
-            <span class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">PO</span>
+          <div
+            class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4"
+          >
+            <h3
+              class="text-xl font-semibold flex items-center gap-3 text-slate-800"
+            >
+              <span
+                class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base"
+                >6</span
+              >
+              Document Sharding
+            </h3>
+            <span
+              class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full"
+              >PO</span
+            >
 
             <p>In your IDE, shard the documents for manageable development:</p>
 
-            <div class="cmd-line whitespace-pre leading-relaxed bg-slate-900/90 text-slate-100 px-4 py-3 rounded-lg border border-slate-800 font-mono text-xs md:text-sm">
-# Option A: Using PO agent
-@po shard docs/prd.md to prd
-@po shard docs/architecture.md to architecture
-# Option B: Manual with task
-# Drag shard-doc task + docs/prd.md into chat</div>
-            <div class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm">
+            <div
+              class="cmd-line whitespace-pre leading-relaxed bg-slate-900/90 text-slate-100 px-4 py-3 rounded-lg border border-slate-800 font-mono text-xs md:text-sm"
+            >
+              # Option A: Using PO agent @po shard docs/prd.md to prd @po shard
+              docs/architecture.md to architecture # Option B: Manual with task
+              # Drag shard-doc task + docs/prd.md into chat
+            </div>
+            <div
+              class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"
+            >
               <p class="font-semibold mb-1">Output:</p>
               <ul class="list-disc ml-5 space-y-1">
-                <li><code class="font-mono text-emerald-700">docs/prd/</code> folder with sharded PRD sections</li>
-                <li><code class="font-mono text-emerald-700">docs/architecture/</code> folder with sharded architecture</li>
+                <li>
+                  <code class="font-mono text-emerald-700">docs/prd/</code>
+                  folder with sharded PRD sections
+                </li>
+                <li>
+                  <code class="font-mono text-emerald-700"
+                    >docs/architecture/</code
+                  >
+                  folder with sharded architecture
+                </li>
               </ul>
             </div>
           </div>
         </section>
 
         <!-- Brownfield Section -->
-        <section id="brownfield" class="space-y-10">
-          <h2 class="text-3xl font-bold tracking-tight bg-gradient-to-r from-amber-600 to-amber-500 bg-clip-text text-transparent mb-3 flex items-center gap-3">🏗️ Brownfield Project Workflow</h2>
-          <p class="text-slate-600 text-lg">Enhancing existing projects – requires careful integration with current systems.</p>
+        <section
+          id="brownfield"
+          role="tabpanel"
+          aria-labelledby="tab-brownfield"
+          class="space-y-10"
+        >
+          <h2
+            class="text-3xl font-bold tracking-tight bg-gradient-to-r from-amber-600 to-amber-500 bg-clip-text text-transparent mb-3 flex items-center gap-3"
+          >
+            🏗️ Brownfield Project Workflow
+          </h2>
+          <p class="text-slate-600 text-lg">
+            Enhancing existing projects – requires careful integration with
+            current systems.
+          </p>
 
-          <div class="rounded-xl bg-amber-100/70 ring-1 ring-amber-300 p-6 shadow-sm">
-            <h4 class="text-lg font-semibold text-amber-800 mb-2 flex items-center gap-2">🤔 First Decision: Enhancement Scope</h4>
-            <p class="text-amber-900 mb-3">The workflow changes based on your enhancement size:</p>
+          <div
+            class="rounded-xl bg-amber-100/70 ring-1 ring-amber-300 p-6 shadow-sm"
+          >
+            <h4
+              class="text-lg font-semibold text-amber-800 mb-2 flex items-center gap-2"
+            >
+              🤔 First Decision: Enhancement Scope
+            </h4>
+            <p class="text-amber-900 mb-3">
+              The workflow changes based on your enhancement size:
+            </p>
             <ul class="list-disc ml-5 space-y-1 text-amber-900 text-sm">
-              <li><span class="font-semibold">Single Story (&lt; 4 hours):</span> Quick story creation</li>
-              <li><span class="font-semibold">Small Feature (1-3 stories):</span> Epic creation</li>
-              <li><span class="font-semibold">Major Enhancement:</span> Full workflow with architecture</li>
+              <li>
+                <span class="font-semibold">Single Story (&lt; 4 hours):</span>
+                Quick story creation
+              </li>
+              <li>
+                <span class="font-semibold">Small Feature (1-3 stories):</span>
+                Epic creation
+              </li>
+              <li>
+                <span class="font-semibold">Major Enhancement:</span> Full
+                workflow with architecture
+              </li>
             </ul>
           </div>
 
-          <div class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 text-sm font-semibold shadow ring-1 ring-blue-400/50">📋 Phase 1: Planning (Web UI Recommended)</div>
-
-          <div class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4">
-            <h3 class="text-xl font-semibold flex items-center gap-3 text-slate-800"><span class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base">1</span> Enhancement Classification</h3>
-            <span class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">Analyst</span>
-
-            <div class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800 font-mono text-sm">/analyst "I need to add payment processing to my existing Node.js app"</div>
-            <div class="rounded-lg bg-sky-50 border-l-4 border-sky-400 px-4 py-3 text-sky-800 text-sm">The analyst will help classify your enhancement and route you to the appropriate path.</div>
+          <div
+            class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 text-sm font-semibold shadow ring-1 ring-blue-400/50"
+          >
+            📋 Phase 1: Planning (Web UI Recommended)
           </div>
 
-          <h3 class="text-xl font-semibold text-slate-800 mt-10">Path A: Quick Single Story (Simple Changes)</h3>
+          <div
+            class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4"
+          >
+            <h3
+              class="text-xl font-semibold flex items-center gap-3 text-slate-800"
+            >
+              <span
+                class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base"
+                >1</span
+              >
+              Enhancement Classification
+            </h3>
+            <span
+              class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full"
+              >Analyst</span
+            >
 
-          <div class="rounded-xl border-l-4 border-blue-500 bg-white/70 p-6 shadow-sm space-y-4">
-            <span class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">PM</span>
-
-            <div class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800 font-mono text-sm">/pm brownfield-create-story</div>
-            <div class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"><p class="font-semibold mb-1">Output:</p><p>Single story ready for implementation. Skip to Development Cycle.</p></div>
+            <div
+              class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800 font-mono text-sm"
+            >
+              /analyst "I need to add payment processing to my existing Node.js
+              app"
+            </div>
+            <div
+              class="rounded-lg bg-sky-50 border-l-4 border-sky-400 px-4 py-3 text-sky-800 text-sm"
+            >
+              The analyst will help classify your enhancement and route you to
+              the appropriate path.
+            </div>
           </div>
 
-          <h3 class="text-xl font-semibold text-slate-800 mt-10">Path B: Small Feature (1-3 Stories)</h3>
+          <h3 class="text-xl font-semibold text-slate-800 mt-10">
+            Path A: Quick Single Story (Simple Changes)
+          </h3>
 
-          <div class="rounded-xl border-l-4 border-blue-500 bg-white/70 p-6 shadow-sm space-y-4">
-            <span class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">PM</span>
+          <div
+            class="rounded-xl border-l-4 border-blue-500 bg-white/70 p-6 shadow-sm space-y-4"
+          >
+            <span
+              class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full"
+              >PM</span
+            >
 
-            <div class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800 font-mono text-sm">/pm brownfield-create-epic</div>
-            <div class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"><p class="font-semibold mb-1">Output:</p><p>Focused epic with 1-3 stories. Skip to Development Cycle.</p></div>
+            <div
+              class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800 font-mono text-sm"
+            >
+              /pm brownfield-create-story
+            </div>
+            <div
+              class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"
+            >
+              <p class="font-semibold mb-1">Output:</p>
+              <p>
+                Single story ready for implementation. Skip to Development
+                Cycle.
+              </p>
+            </div>
           </div>
 
-          <h3 class="text-xl font-semibold text-slate-800 mt-10">Path C: Major Enhancement (Full Workflow)</h3>
+          <h3 class="text-xl font-semibold text-slate-800 mt-10">
+            Path B: Small Feature (1-3 Stories)
+          </h3>
 
-          <div class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4">
-            <h3 class="text-xl font-semibold flex items-center gap-3 text-slate-800"><span class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base">2</span> Existing Project Analysis</h3>
-            <span class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">Architect</span>
+          <div
+            class="rounded-xl border-l-4 border-blue-500 bg-white/70 p-6 shadow-sm space-y-4"
+          >
+            <span
+              class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full"
+              >PM</span
+            >
 
-            <div class="note-box">
-              <strong>Critical:</strong> Upload your entire project to Gemini
-              Web or provide GitHub URL
+            <div
+              class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800 font-mono text-sm"
+            >
+              /pm brownfield-create-epic
+            </div>
+            <div
+              class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"
+            >
+              <p class="font-semibold mb-1">Output:</p>
+              <p>Focused epic with 1-3 stories. Skip to Development Cycle.</p>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-semibold text-slate-800 mt-10">
+            Path C: Major Enhancement (Full Workflow)
+          </h3>
+
+          <div
+            class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4"
+          >
+            <h3
+              class="text-xl font-semibold flex items-center gap-3 text-slate-800"
+            >
+              <span
+                class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base"
+                >2</span
+              >
+              Existing Project Analysis
+            </h3>
+            <span
+              class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full"
+              >Architect</span
+            >
+
+            <div
+              class="rounded-lg bg-amber-50 border-l-4 border-amber-400 px-4 py-3 text-amber-800 text-sm"
+            >
+              <span class="font-semibold">Critical:</span> Upload your entire
+              project (or provide GitHub repository URL) so the Architect
+              analyzes real code, not assumptions.
             </div>
 
-            <div class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800 font-mono text-sm">/architect document-project</div>
-            <div class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"><p class="font-semibold mb-1">Output: <span class="inline-block bg-amber-500 text-white text-[11px] font-semibold px-2 py-0.5 rounded-full align-middle">brownfield-architecture.md</span></p><p>Current state analysis, tech debt, integration points, constraints</p></div>
-            <div class="rounded-lg bg-amber-50 border-l-4 border-amber-400 px-4 py-3 text-amber-800 text-sm"><span class="font-semibold">Important:</span> Captures ACTUAL system state, not idealized architecture.</div>
+            <div
+              class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800 font-mono text-sm"
+            >
+              /architect document-project
+            </div>
+            <div
+              class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"
+            >
+              <p class="font-semibold mb-1">
+                Output:
+                <span
+                  class="inline-block bg-amber-500 text-white text-[11px] font-semibold px-2 py-0.5 rounded-full align-middle"
+                  >brownfield-architecture.md</span
+                >
+              </p>
+              <p>
+                Current state analysis, tech debt, integration points,
+                constraints
+              </p>
+            </div>
+            <div
+              class="rounded-lg bg-amber-50 border-l-4 border-amber-400 px-4 py-3 text-amber-800 text-sm"
+            >
+              <span class="font-semibold">Important:</span> Captures ACTUAL
+              system state, not idealized architecture.
+            </div>
           </div>
 
-          <div class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4">
-            <h3 class="text-xl font-semibold flex items-center gap-3 text-slate-800"><span class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base">3</span> Enhancement PRD</h3>
-            <span class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">PM</span>
+          <div
+            class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4"
+          >
+            <h3
+              class="text-xl font-semibold flex items-center gap-3 text-slate-800"
+            >
+              <span
+                class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base"
+                >3</span
+              >
+              Enhancement PRD
+            </h3>
+            <span
+              class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full"
+              >PM</span
+            >
 
-            <div class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800 font-mono text-sm">/pm create-doc brownfield-prd</div>
-            <div class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"><p class="font-semibold mb-1">Output: <span class="inline-block bg-amber-500 text-white text-[11px] font-semibold px-2 py-0.5 rounded-full align-middle">prd.md</span></p><p>Enhancement scope, compatibility requirements, integration strategy</p></div>
-            <div class="rounded-lg bg-amber-50 border-l-4 border-amber-400 px-4 py-3 text-amber-800 text-sm"><span class="font-semibold">Important:</span> Save as <code class="font-mono text-amber-700">docs/prd.md</code></div>
+            <div
+              class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800 font-mono text-sm"
+            >
+              /pm create-doc brownfield-prd
+            </div>
+            <div
+              class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"
+            >
+              <p class="font-semibold mb-1">
+                Output:
+                <span
+                  class="inline-block bg-amber-500 text-white text-[11px] font-semibold px-2 py-0.5 rounded-full align-middle"
+                  >prd.md</span
+                >
+              </p>
+              <p>
+                Enhancement scope, compatibility requirements, integration
+                strategy
+              </p>
+            </div>
+            <div
+              class="rounded-lg bg-amber-50 border-l-4 border-amber-400 px-4 py-3 text-amber-800 text-sm"
+            >
+              <span class="font-semibold">Important:</span> Save as
+              <code class="font-mono text-amber-700">docs/prd.md</code>
+            </div>
           </div>
 
-          <div class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4">
-            <h3 class="text-xl font-semibold flex items-center gap-3 text-slate-800"><span class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base">4</span> Enhancement Architecture</h3>
-            <span class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">Architect</span>
+          <div
+            class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4"
+          >
+            <h3
+              class="text-xl font-semibold flex items-center gap-3 text-slate-800"
+            >
+              <span
+                class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base"
+                >4</span
+              >
+              Enhancement Architecture
+            </h3>
+            <span
+              class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full"
+              >Architect</span
+            >
 
             <p>Only if architectural changes are needed:</p>
 
-            <div class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800 font-mono text-sm">/architect create-doc brownfield-architecture</div>
-            <div class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"><p class="font-semibold mb-1">Output: <span class="inline-block bg-amber-500 text-white text-[11px] font-semibold px-2 py-0.5 rounded-full align-middle">architecture.md</span></p><p>Integration approach, compatibility measures, rollback strategy</p></div>
-            <div class="rounded-lg bg-amber-50 border-l-4 border-amber-400 px-4 py-3 text-amber-800 text-sm"><span class="font-semibold">Important:</span> Save as <code class="font-mono text-amber-700">docs/architecture.md</code></div>
+            <div
+              class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800 font-mono text-sm"
+            >
+              /architect create-doc brownfield-architecture
+            </div>
+            <div
+              class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"
+            >
+              <p class="font-semibold mb-1">
+                Output:
+                <span
+                  class="inline-block bg-amber-500 text-white text-[11px] font-semibold px-2 py-0.5 rounded-full align-middle"
+                  >architecture.md</span
+                >
+              </p>
+              <p>
+                Integration approach, compatibility measures, rollback strategy
+              </p>
+            </div>
+            <div
+              class="rounded-lg bg-amber-50 border-l-4 border-amber-400 px-4 py-3 text-amber-800 text-sm"
+            >
+              <span class="font-semibold">Important:</span> Save as
+              <code class="font-mono text-amber-700">docs/architecture.md</code>
+            </div>
           </div>
 
-          <div class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4">
-            <h3 class="text-xl font-semibold flex items-center gap-3 text-slate-800"><span class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base">5</span> Validation</h3>
-            <span class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">PO</span>
+          <div
+            class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4"
+          >
+            <h3
+              class="text-xl font-semibold flex items-center gap-3 text-slate-800"
+            >
+              <span
+                class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base"
+                >5</span
+              >
+              Validation
+            </h3>
+            <span
+              class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full"
+              >PO</span
+            >
 
-            <div class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800 font-mono text-sm">/po execute-checklist-po</div>
-            <div class="rounded-lg bg-sky-50 border-l-4 border-sky-400 px-4 py-3 text-sky-800 text-sm"><span class="font-semibold">Focus:</span> Integration safety, compatibility, rollback procedures</div>
+            <div
+              class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800 font-mono text-sm"
+            >
+              /po execute-checklist-po
+            </div>
+            <div
+              class="rounded-lg bg-sky-50 border-l-4 border-sky-400 px-4 py-3 text-sky-800 text-sm"
+            >
+              <span class="font-semibold">Focus:</span> Integration safety,
+              compatibility, rollback procedures
+            </div>
           </div>
 
-          <div class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-6 py-2 text-sm font-semibold shadow ring-1 ring-emerald-400/50">💻 Phase 2: Development (Switch to IDE)</div>
+          <div
+            class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-6 py-2 text-sm font-semibold shadow ring-1 ring-emerald-400/50"
+          >
+            💻 Phase 2: Development (Switch to IDE)
+          </div>
 
-          <p class="text-slate-600">Same as Greenfield – shard documents and proceed to development cycle.</p>
+          <p class="text-slate-600">
+            Same as Greenfield – shard documents and proceed to development
+            cycle.
+          </p>
         </section>
 
         <!-- Development Cycle Section -->
-        <section id="development">
-          <h2>🔄 Development Cycle (IDE Only)</h2>
-          <p>
-            The iterative story implementation process - Same for both
-            Greenfield and Brownfield
+        <section
+          id="development"
+          role="tabpanel"
+          aria-labelledby="tab-development"
+          class="space-y-10"
+        >
+          <h2
+            class="text-3xl font-bold tracking-tight bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent mb-3 flex items-center gap-3"
+          >
+            🔄 Development Cycle (IDE Only)
+          </h2>
+          <p class="text-slate-600 text-lg">
+            Iterative story implementation – same for both Greenfield and
+            Brownfield.
           </p>
 
-          <div class="warning-box">
-            <strong>Critical Context Management:</strong> ALWAYS start a new
-            chat between SM, Dev, and QA work to maintain clean context windows!
+          <div
+            class="rounded-lg bg-amber-50 border-l-4 border-amber-400 px-4 py-3 text-amber-800 text-sm"
+          >
+            <span class="font-semibold">Critical Context Management:</span>
+            ALWAYS start a new chat between SM, Dev, and QA work to maintain
+            clean context windows!
           </div>
 
-          <div class="workflow-step">
-            <h3><span class="step-number">1</span> Story Creation</h3>
-            <span class="agent-badge">SM</span>
-
-            <p><strong>Start NEW CLEAN CHAT</strong></p>
-
-            <div class="command-box">
-              <br /># For sharded PRD (most common) <br />@sm *create <br />#
-              For brownfield without sharding <br />@sm # Then use
-              brownfield-create-story task
+          <div
+            class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-5"
+          >
+            <h3
+              class="text-xl font-semibold flex items-center gap-3 text-slate-800"
+            >
+              <span
+                class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base"
+                >1</span
+              >
+              Story Creation
+            </h3>
+            <span
+              class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full"
+              >SM</span
+            >
+            <p class="text-slate-700 text-sm font-medium">
+              <strong>Start NEW CLEAN CHAT</strong>
+            </p>
+            <div
+              class="cmd-line whitespace-pre leading-relaxed bg-slate-900/90 text-slate-100 px-4 py-3 rounded-lg border border-slate-800 font-mono text-xs md:text-sm"
+            >
+              # For sharded PRD (most common) @sm *create # For brownfield
+              without sharding @sm # Then use brownfield-create-story task
             </div>
-
-            <div class="output-box">
-              <strong>Output:</strong>
-              <span class="document-badge">story-1.1.md</span> in
-              <code>docs/stories/</code>
-              <p>Status: Draft → Review and approve → Approved</p>
+            <div
+              class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"
+            >
+              <p class="font-semibold mb-1">
+                Output:
+                <span
+                  class="inline-block bg-amber-500 text-white text-[11px] font-semibold px-2 py-0.5 rounded-full align-middle"
+                  >story-1.1.md</span
+                >
+                in <code class="font-mono text-emerald-700">docs/stories/</code>
+              </p>
+              <p>Status: Draft → Review & approve → Approved</p>
             </div>
-
-            <div class="note-box">
-              <strong>Story Structure:</strong>
-              <ul>
+            <div
+              class="rounded-lg bg-sky-50 border-l-4 border-sky-400 px-4 py-3 text-sky-800 text-sm"
+            >
+              <p class="font-semibold mb-1">Story Structure:</p>
+              <ul class="list-disc ml-5 space-y-1">
                 <li>User story (As a... I want... So that...)</li>
                 <li>Acceptance criteria</li>
                 <li>Tasks/Subtasks checklist</li>
@@ -419,80 +1094,136 @@
             </div>
           </div>
 
-          <div class="workflow-step">
-            <h3><span class="step-number">2</span> Story Implementation</h3>
-            <span class="agent-badge">Dev</span>
-
-            <p><strong>Start NEW CLEAN CHAT</strong></p>
-
-            <div class="command-box">
-              @dev # Agent asks which story to implement
-              <br /># Provide story file content or path
+          <div
+            class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-5"
+          >
+            <h3
+              class="text-xl font-semibold flex items-center gap-3 text-slate-800"
+            >
+              <span
+                class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base"
+                >2</span
+              >
+              Story Implementation
+            </h3>
+            <span
+              class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full"
+              >Dev</span
+            >
+            <p class="text-slate-700 text-sm font-medium">
+              <strong>Start NEW CLEAN CHAT</strong>
+            </p>
+            <div
+              class="cmd-line whitespace-pre leading-relaxed bg-slate-900/90 text-slate-100 px-4 py-3 rounded-lg border border-slate-800 font-mono text-xs md:text-sm"
+            >
+              @dev # Agent asks which story to implement # Provide story file
+              content or path
             </div>
-
-            <div class="output-box">
-              <strong>Dev Actions:</strong>
-              <ul>
-                <li>Implements all tasks/subtasks</li>
-                <li>Creates/modifies files</li>
-                <li>Writes tests</li>
-                <li>Updates File List in story</li>
-                <li>Marks story as "Review" when complete</li>
+            <div
+              class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"
+            >
+              <p class="font-semibold mb-1">Dev Actions:</p>
+              <ul class="list-disc ml-5 space-y-1">
+                <li>Implement all tasks/subtasks</li>
+                <li>Create/modify files</li>
+                <li>Write tests</li>
+                <li>Update File List in story</li>
+                <li>Mark story as "Review" when complete</li>
               </ul>
             </div>
           </div>
 
-          <div class="workflow-step">
-            <h3>
-              <span class="step-number">3</span> QA Review (Optional but
-              Recommended)
+          <div
+            class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-5"
+          >
+            <h3
+              class="text-xl font-semibold flex items-center gap-3 text-slate-800"
+            >
+              <span
+                class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base"
+                >3</span
+              >
+              QA Review (Optional but Recommended)
             </h3>
-            <span class="agent-badge">QA</span>
-
-            <p><strong>Start NEW CLEAN CHAT</strong></p>
-
-            <div class="command-box">
+            <span
+              class="inline-block bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full"
+              >QA</span
+            >
+            <p class="text-slate-700 text-sm font-medium">
+              <strong>Start NEW CLEAN CHAT</strong>
+            </p>
+            <div
+              class="cmd-line bg-slate-900/90 text-slate-100 px-4 py-2 rounded-lg border border-slate-800 font-mono text-sm"
+            >
               @qa review-story docs/stories/story-1.1.md
             </div>
-
-            <div class="output-box">
-              <strong>QA Actions:</strong>
-              <ul>
+            <div
+              class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"
+            >
+              <p class="font-semibold mb-1">QA Actions:</p>
+              <ul class="list-disc ml-5 space-y-1">
                 <li>Senior dev code review</li>
-                <li>Fixes small issues directly</li>
-                <li>Leaves checklist for remaining items</li>
-                <li>Updates story status</li>
+                <li>Fix small issues directly</li>
+                <li>Leave checklist for remaining items</li>
+                <li>Update story status</li>
               </ul>
             </div>
-
-            <div class="note-box">
+            <div
+              class="rounded-lg bg-sky-50 border-l-4 border-sky-400 px-4 py-3 text-sky-800 text-sm"
+            >
               If QA leaves unchecked items, return to Dev (new chat) to address
-              them
+              them.
             </div>
           </div>
 
-          <div class="workflow-step">
-            <h3><span class="step-number">4</span> Repeat Cycle</h3>
-
-            <p>
+          <div
+            class="rounded-xl border-l-4 border-blue-500 bg-slate-50/80 p-6 shadow-sm space-y-4"
+          >
+            <h3
+              class="text-xl font-semibold flex items-center gap-3 text-slate-800"
+            >
+              <span
+                class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-base"
+                >4</span
+              >
+              Repeat Cycle
+            </h3>
+            <p class="text-slate-600">
               Continue the SM → Dev → QA cycle for each story until all epic
-              stories are complete
+              stories are complete.
             </p>
-
-            <div class="warning-box">
-              <strong>Remember:</strong> Only 1 story in progress at a time.
-              Complete each story before starting the next!
+            <div
+              class="rounded-lg bg-amber-50 border-l-4 border-amber-400 px-4 py-3 text-amber-800 text-sm"
+            >
+              <span class="font-semibold">Remember:</span> Only 1 story in
+              progress at a time. Complete each story before starting the next!
             </div>
           </div>
         </section>
 
         <!-- Commands Reference Section -->
-        <section id="commands">
-          <h2>⌨️ Commands Reference</h2>
+        <section
+          id="commands"
+          role="tabpanel"
+          aria-labelledby="tab-commands"
+          class="space-y-10"
+        >
+          <h2
+            class="text-3xl font-bold tracking-tight bg-gradient-to-r from-slate-700 to-slate-500 bg-clip-text text-transparent mb-3 flex items-center gap-3"
+          >
+            ⌨️ Commands Reference
+          </h2>
 
-          <div class="quick-ref">
-            <h4>Web UI Commands (ChatGPT, Claude, Gemini)</h4>
-            <pre><code>/agent-name          - Switch to specific agent
+          <div class="grid md:grid-cols-2 gap-6">
+            <div
+              class="rounded-xl bg-slate-800/95 text-slate-100 p-6 shadow ring-1 ring-slate-700"
+            >
+              <h4 class="text-sky-300 font-semibold mb-3">
+                Web UI Commands (ChatGPT, Claude, Gemini)
+              </h4>
+              <pre
+                class="text-xs leading-relaxed overflow-x-auto"
+              ><code>/agent-name          - Switch to specific agent
 /help               - Show available commands
 /agent-name command - Execute agent command
 
@@ -501,11 +1232,16 @@ Examples:
 /pm create-doc prd
 /architect create-doc architecture
 /po execute-checklist-po</code></pre>
-          </div>
-
-          <div class="quick-ref">
-            <h4>IDE Commands (Cursor, VS Code, etc.)</h4>
-            <pre><code>@agent-name    - Load agent (Cursor, Windsurf)
+            </div>
+            <div
+              class="rounded-xl bg-slate-800/95 text-slate-100 p-6 shadow ring-1 ring-slate-700"
+            >
+              <h4 class="text-sky-300 font-semibold mb-3">
+                IDE Commands (Cursor, VS Code, etc.)
+              </h4>
+              <pre
+                class="text-xs leading-relaxed overflow-x-auto"
+              ><code>@agent-name    - Load agent (Cursor, Windsurf)
 /agent-name    - Load agent (Claude Code)
 *command       - Execute agent command
 
@@ -514,162 +1250,279 @@ Examples:
 @dev → (implement story)
 @qa → review-story
 @po → shard docs/prd.md</code></pre>
+            </div>
           </div>
 
-          <table>
-            <thead>
-              <tr>
-                <th>Agent</th>
-                <th>Key Commands</th>
-                <th>Purpose</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Analyst</strong></td>
-                <td>
-                  brainstorm<br />create-project-brief<br />document-project
-                </td>
-                <td>Research, analysis, documentation</td>
-              </tr>
-              <tr>
-                <td><strong>PM</strong></td>
-                <td>
-                  create-doc prd<br />brownfield-create-epic<br />brownfield-create-story
-                </td>
-                <td>Requirements and planning</td>
-              </tr>
-              <tr>
-                <td><strong>UX Expert</strong></td>
-                <td>create-front-end-spec<br />generate-ui-prompt</td>
-                <td>UI/UX design and specifications</td>
-              </tr>
-              <tr>
-                <td><strong>Architect</strong></td>
-                <td>
-                  create-doc architecture<br />create-doc
-                  fullstack-architecture<br />document-project
-                </td>
-                <td>Technical design and architecture</td>
-              </tr>
-              <tr>
-                <td><strong>PO</strong></td>
-                <td>execute-checklist-po<br />shard-doc</td>
-                <td>Validation and document management</td>
-              </tr>
-              <tr>
-                <td><strong>SM</strong></td>
-                <td>*create<br />create-next-story</td>
-                <td>Story creation and management</td>
-              </tr>
-              <tr>
-                <td><strong>Dev</strong></td>
-                <td>(implements stories)</td>
-                <td>Code implementation</td>
-              </tr>
-              <tr>
-                <td><strong>QA</strong></td>
-                <td>review-story</td>
-                <td>Code review and quality</td>
-              </tr>
-            </tbody>
-          </table>
+          <div
+            class="rounded-xl overflow-hidden shadow ring-1 ring-slate-200 bg-white/80"
+          >
+            <table class="w-full text-sm">
+              <thead
+                class="bg-gradient-to-r from-slate-800 to-slate-700 text-slate-200"
+              >
+                <tr>
+                  <th class="py-3 px-4 text-left font-semibold tracking-wide">
+                    Agent
+                  </th>
+                  <th class="py-3 px-4 text-left font-semibold tracking-wide">
+                    Key Commands
+                  </th>
+                  <th class="py-3 px-4 text-left font-semibold tracking-wide">
+                    Purpose
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200/70">
+                <tr class="hover:bg-slate-50/70 transition">
+                  <td class="py-3 px-4 font-semibold text-slate-800">
+                    Analyst
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">
+                    brainstorm<br />create-project-brief<br />document-project
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">
+                    Research, analysis, documentation
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition">
+                  <td class="py-3 px-4 font-semibold text-slate-800">PM</td>
+                  <td class="py-3 px-4 text-slate-600">
+                    create-doc prd<br />brownfield-create-epic<br />brownfield-create-story
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">
+                    Requirements and planning
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition">
+                  <td class="py-3 px-4 font-semibold text-slate-800">
+                    UX Expert
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">
+                    create-front-end-spec<br />generate-ui-prompt
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">
+                    UI/UX design and specifications
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition">
+                  <td class="py-3 px-4 font-semibold text-slate-800">
+                    Architect
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">
+                    create-doc architecture<br />create-doc
+                    fullstack-architecture<br />document-project
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">
+                    Technical design and architecture
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition">
+                  <td class="py-3 px-4 font-semibold text-slate-800">PO</td>
+                  <td class="py-3 px-4 text-slate-600">
+                    execute-checklist-po<br />shard-doc
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">
+                    Validation & document management
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition">
+                  <td class="py-3 px-4 font-semibold text-slate-800">SM</td>
+                  <td class="py-3 px-4 text-slate-600">
+                    *create<br />create-next-story
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">
+                    Story creation & management
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition">
+                  <td class="py-3 px-4 font-semibold text-slate-800">Dev</td>
+                  <td class="py-3 px-4 text-slate-600">(implements stories)</td>
+                  <td class="py-3 px-4 text-slate-600">Code implementation</td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition">
+                  <td class="py-3 px-4 font-semibold text-slate-800">QA</td>
+                  <td class="py-3 px-4 text-slate-600">review-story</td>
+                  <td class="py-3 px-4 text-slate-600">
+                    Code review & quality
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </section>
 
         <!-- Documents Section -->
-        <section id="documents">
-          <h2>📄 Document Outputs</h2>
+        <section
+          id="documents"
+          role="tabpanel"
+          aria-labelledby="tab-documents"
+          class="space-y-10"
+        >
+          <h2
+            class="text-3xl font-bold tracking-tight bg-gradient-to-r from-purple-600 to-fuchsia-500 bg-clip-text text-transparent mb-3 flex items-center gap-3"
+          >
+            📄 Document Outputs
+          </h2>
 
-          <h3>Planning Phase Documents</h3>
+          <h3 class="text-xl font-semibold text-slate-800">
+            Planning Phase Documents
+          </h3>
+          <div
+            class="rounded-xl overflow-hidden shadow ring-1 ring-slate-200 bg-white/80"
+          >
+            <table class="w-full text-sm">
+              <thead
+                class="bg-gradient-to-r from-slate-800 to-slate-700 text-slate-200"
+              >
+                <tr>
+                  <th class="py-3 px-4 text-left font-semibold tracking-wide">
+                    Document
+                  </th>
+                  <th class="py-3 px-4 text-left font-semibold tracking-wide">
+                    Created By
+                  </th>
+                  <th class="py-3 px-4 text-left font-semibold tracking-wide">
+                    Save Location
+                  </th>
+                  <th class="py-3 px-4 text-left font-semibold tracking-wide">
+                    Contains
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200/70">
+                <tr class="hover:bg-slate-50/70 transition">
+                  <td class="py-3 px-4 font-semibold text-slate-800">
+                    project-brief.md
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">Analyst</td>
+                  <td class="py-3 px-4 text-slate-600">
+                    docs/project-brief.md
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">
+                    Problem statement, goals, target users, MVP scope
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition">
+                  <td class="py-3 px-4 font-semibold text-slate-800">prd.md</td>
+                  <td class="py-3 px-4 text-slate-600">PM</td>
+                  <td class="py-3 px-4 text-slate-600">docs/prd.md</td>
+                  <td class="py-3 px-4 text-slate-600">
+                    Requirements, epics, user stories, technical assumptions
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition">
+                  <td class="py-3 px-4 font-semibold text-slate-800">
+                    front-end-spec.md
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">UX Expert</td>
+                  <td class="py-3 px-4 text-slate-600">
+                    docs/front-end-spec.md
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">
+                    UI/UX design, wireframes, component specs
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition">
+                  <td class="py-3 px-4 font-semibold text-slate-800">
+                    architecture.md
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">Architect</td>
+                  <td class="py-3 px-4 text-slate-600">docs/architecture.md</td>
+                  <td class="py-3 px-4 text-slate-600">
+                    Tech stack, system design, API specs, database schema
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition">
+                  <td class="py-3 px-4 font-semibold text-slate-800">
+                    fullstack-architecture.md
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">Architect</td>
+                  <td class="py-3 px-4 text-slate-600">
+                    docs/fullstack-architecture.md
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">
+                    Complete frontend + backend architecture
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-          <table>
-            <thead>
-              <tr>
-                <th>Document</th>
-                <th>Created By</th>
-                <th>Save Location</th>
-                <th>Contains</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>project-brief.md</strong></td>
-                <td>Analyst</td>
-                <td>docs/project-brief.md</td>
-                <td>Problem statement, goals, target users, MVP scope</td>
-              </tr>
-              <tr>
-                <td><strong>prd.md</strong></td>
-                <td>PM</td>
-                <td>docs/prd.md</td>
-                <td>
-                  Requirements, epics, user stories, technical assumptions
-                </td>
-              </tr>
-              <tr>
-                <td><strong>front-end-spec.md</strong></td>
-                <td>UX Expert</td>
-                <td>docs/front-end-spec.md</td>
-                <td>UI/UX design, wireframes, component specs</td>
-              </tr>
-              <tr>
-                <td><strong>architecture.md</strong></td>
-                <td>Architect</td>
-                <td>docs/architecture.md</td>
-                <td>Tech stack, system design, API specs, database schema</td>
-              </tr>
-              <tr>
-                <td><strong>fullstack-architecture.md</strong></td>
-                <td>Architect</td>
-                <td>docs/fullstack-architecture.md</td>
-                <td>Complete frontend + backend architecture</td>
-              </tr>
-            </tbody>
-          </table>
+          <h3 class="text-xl font-semibold text-slate-800">
+            Development Phase Documents
+          </h3>
+          <div
+            class="rounded-xl overflow-hidden shadow ring-1 ring-slate-200 bg-white/80"
+          >
+            <table class="w-full text-sm">
+              <thead
+                class="bg-gradient-to-r from-slate-800 to-slate-700 text-slate-200"
+              >
+                <tr>
+                  <th class="py-3 px-4 text-left font-semibold tracking-wide">
+                    Document/Folder
+                  </th>
+                  <th class="py-3 px-4 text-left font-semibold tracking-wide">
+                    Created By
+                  </th>
+                  <th class="py-3 px-4 text-left font-semibold tracking-wide">
+                    Location
+                  </th>
+                  <th class="py-3 px-4 text-left font-semibold tracking-wide">
+                    Purpose
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200/70">
+                <tr class="hover:bg-slate-50/70 transition">
+                  <td class="py-3 px-4 font-semibold text-slate-800">
+                    Sharded PRD
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">PO (shard-doc)</td>
+                  <td class="py-3 px-4 text-slate-600">docs/prd/</td>
+                  <td class="py-3 px-4 text-slate-600">
+                    PRD broken into manageable sections
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition">
+                  <td class="py-3 px-4 font-semibold text-slate-800">
+                    Sharded Architecture
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">PO (shard-doc)</td>
+                  <td class="py-3 px-4 text-slate-600">docs/architecture/</td>
+                  <td class="py-3 px-4 text-slate-600">
+                    Architecture in digestible pieces
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition">
+                  <td class="py-3 px-4 font-semibold text-slate-800">
+                    User Stories
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">SM</td>
+                  <td class="py-3 px-4 text-slate-600">docs/stories/</td>
+                  <td class="py-3 px-4 text-slate-600">
+                    Individual implementation stories
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition">
+                  <td class="py-3 px-4 font-semibold text-slate-800">
+                    Implementation Files
+                  </td>
+                  <td class="py-3 px-4 text-slate-600">Dev</td>
+                  <td class="py-3 px-4 text-slate-600">Project folders</td>
+                  <td class="py-3 px-4 text-slate-600">Actual code files</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-          <h3>Development Phase Documents</h3>
-
-          <table>
-            <thead>
-              <tr>
-                <th>Document/Folder</th>
-                <th>Created By</th>
-                <th>Location</th>
-                <th>Purpose</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Sharded PRD</strong></td>
-                <td>PO (shard-doc)</td>
-                <td>docs/prd/</td>
-                <td>PRD broken into manageable sections</td>
-              </tr>
-              <tr>
-                <td><strong>Sharded Architecture</strong></td>
-                <td>PO (shard-doc)</td>
-                <td>docs/architecture/</td>
-                <td>Architecture in digestible pieces</td>
-              </tr>
-              <tr>
-                <td><strong>User Stories</strong></td>
-                <td>SM</td>
-                <td>docs/stories/</td>
-                <td>Individual implementation stories</td>
-              </tr>
-              <tr>
-                <td><strong>Implementation Files</strong></td>
-                <td>Dev</td>
-                <td>Project folders</td>
-                <td>Actual code files</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div class="note-box">
-            <strong>Pro Tip:</strong> Always maintain this folder structure:
-            <pre>
-project-root/
+          <div
+            class="rounded-xl bg-sky-50/80 border border-sky-200 px-6 py-5 text-sky-900 shadow-sm"
+          >
+            <p class="font-semibold mb-2">Pro Tip:</p>
+            <pre
+              class="text-xs leading-relaxed overflow-x-auto bg-white/60 rounded-md p-4 border border-sky-100"
+            ><code>project-root/
 ├── docs/
 │   ├── project-brief.md
 │   ├── prd.md
@@ -679,15 +1532,14 @@ project-root/
 │   ├── architecture/     (sharded)
 │   └── stories/          (user stories)
 ├── src/                  (your code)
-└── tests/                (test files)</pre
-            >
+└── tests/                (test files)</code></pre>
           </div>
         </section>
       </div>
     </div>
 
     <script>
-      function showSection(sectionId) {
+      function showSection(e, sectionId) {
         // Hide all sections
         const sections = document.querySelectorAll("section");
         sections.forEach((section) => {
@@ -699,8 +1551,13 @@ project-root/
 
         // Update nav buttons to new theme class
         const buttons = document.querySelectorAll(".tab-button");
-        buttons.forEach((btn) => btn.classList.remove("active"));
-        event.target.classList.add("active");
+        buttons.forEach((btn) => {
+          btn.classList.remove("active");
+          btn.setAttribute("aria-selected", "false");
+        });
+        const targetBtn = e.currentTarget || e.target;
+        targetBtn.classList.add("active");
+        targetBtn.setAttribute("aria-selected", "true");
       }
 
       // Add smooth scrolling
