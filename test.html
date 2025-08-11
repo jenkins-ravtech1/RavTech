@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BMAD Method - Interactive Workflow Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"></script>
+    <style>
+      /* Enhanced styles for interactive BMAD guide */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+        min-height: 100vh;
+      }
+      
+      /* Tab system */
+      .tab-content {
+        display: none;
+        animation: fadeIn 0.3s ease;
+      }
+      .tab-content.active {
+        display: block;
+      }
+      
+      .tab-button {
+        transition: all 0.3s ease;
+        color: rgb(226 232 240);
+      }
+      .tab-button.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        border: 2px solid #667eea;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        transform: translateY(-2px);
+      }
+      .tab-button:hover:not(.active) {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        background: #475569;
+      }
+      
+      /* Workflow selectors */
+      .workflow-selector {
+        display: none;
+      }
+      .workflow-selector.active {
+        display: block;
+      }
+      
+      /* Command boxes with copy functionality */
+      .command-box {
+        background: #1e1e1e;
+        border-radius: 8px;
+        border: 1px solid #4ec9b0;
+        position: relative;
+        overflow: hidden;
+      }
+      .command-text {
+        color: #4ec9b0;
+        font-family: 'Courier New', monospace;
+        padding: 12px 60px 12px 16px;
+        margin: 0;
+        white-space: pre-wrap;
+      }
+      .copy-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: #4ec9b0;
+        color: #1e1e1e;
+        border: none;
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .copy-btn:hover {
+        background: #6cd4b7;
+      }
+      .copy-btn.copied {
+        background: #28a745 !important;
+        color: white !important;
+      }
+      
+      /* Styled containers */
+      .warning-box {
+        border: 2px solid #ffc107;
+        background: #fff3cd;
+        color: #856404;
+      }
+      .success-box {
+        border: 2px solid #28a745;
+        background: #d4edda;
+        color: #155724;
+      }
+      .description-box {
+        border: 2px solid #2196f3;
+        background: #d1ecf1;
+        color: #0c5460;
+      }
+      .transition-box {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+      
+      /* Phase indicators */
+      .phase-indicator {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      }
+      
+      /* Agent cards */
+      .agent-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+      .agent-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+      }
+      
+      /* Document output boxes */
+      .document-output {
+        border: 2px solid #28a745;
+        background: #f8f9fa;
+        border-left: 6px solid #28a745;
+      }
+      
+      .filename {
+        background: #e9ecef;
+        color: #495057;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9em;
+      }
+      
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateX(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      
+      /* Responsive grid */
+      .responsive-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+      }
+      
+      /* Checklist styling */
+      .checklist {
+        list-style: none;
+      }
+      .checklist li {
+        position: relative;
+        padding-left: 2rem;
+        margin-bottom: 0.5rem;
+      }
+      .checklist li:before {
+        content: "✅";
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    </style>
+  </head>
+  <body class="text-lg">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 py-12 shadow-2xl">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <h1 class="text-6xl font-bold text-white mb-4 tracking-tight">
+          🚀 BMAD Method
+        </h1>
+        <h2 class="text-2xl text-purple-200 font-medium mb-6">
+          Interactive Workflow Guide
+        </h2>
+        <p class="text-lg text-gray-300 max-w-3xl mx-auto mb-8">
+          Breakthrough Method of Agile AI-driven Development - Complete step-by-step guide with interactive features, DevOps integration, and comprehensive workflows for both Greenfield & Brownfield projects.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <span class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg">AI-Driven</span>
+          <span class="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg">Agile</span>
+          <span class="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg">End-to-End</span>
+          <span class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg">DevOps Ready</span>
+        </div>
+        
+        <!-- Keyboard shortcuts info -->
+        <div class="mt-8 text-sm text-gray-400">
+          <p>💡 <strong>Keyboard Shortcuts:</strong> Ctrl+1 (Planning Phase) | Ctrl+2 (Development Cycle)</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Navigation Tabs -->
+    <div class="max-w-7xl mx-auto px-6 mt-8">
+      <nav class="mb-8 bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl shadow-xl p-3 border border-slate-600 sticky top-4 z-50">
+        <div class="flex gap-4 justify-center" role="tablist" aria-label="BMAD workflow tabs">
+          <button
+            id="tab-planning"
+            onclick="showTab('planning')"
+            role="tab"
+            aria-controls="planning-tab"
+            aria-selected="true"
+            class="tab-button active px-8 py-4 rounded-xl font-semibold text-lg flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-500"
+          >
+            <span class="text-2xl">📋</span>
+            <span>Planning Phase</span>
+            <span class="text-sm opacity-70">(Web UI)</span>
+          </button>
+          <button
+            id="tab-development"
+            onclick="showTab('development')"
+            role="tab"
+            aria-controls="development-tab"
+            aria-selected="false"
+            class="tab-button px-8 py-4 rounded-xl font-semibold text-lg flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-500"
+          >
+            <span class="text-2xl">🔨</span>
+            <span>Development Cycle</span>
+            <span class="text-sm opacity-70">(IDE)</span>
+          </button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="max-w-7xl mx-auto px-6 pb-16">
+      <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl ring-1 ring-black/10 p-8 space-y-8">
+        
+        <!-- PLANNING PHASE TAB CONTENT -->
+        <div id="planning-tab" class="tab-content active">
+          
+          <!-- Workflow Selector for Planning -->
+          <div class="mb-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">📋 Planning Phase Workflows</h2>
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+              <button 
+                onclick="selectWorkflow('greenfield-planning')" 
+                id="greenfield-planning-btn"
+                class="workflow-btn active px-6 py-3 rounded-xl font-semibold bg-gradient-to-r from-emerald-500 to-emerald-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                🌱 Greenfield Planning
+              </button>
+              <button 
+                onclick="selectWorkflow('brownfield-planning')" 
+                id="brownfield-planning-btn"
+                class="workflow-btn px-6 py-3 rounded-xl font-semibold bg-gray-200 text-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                🏗️ Brownfield Planning
+              </button>
+            </div>
+          </div>
+
+          <!-- Phase Flow Indicator -->
+          <div class="mb-12">
+            <h3 class="text-xl font-semibold text-gray-700 mb-6 text-center">Planning Phase Flow (5 Steps)</h3>
+            <div class="flex items-center justify-center space-x-4 overflow-x-auto pb-4">
+              <div class="flex flex-col items-center space-y-2 min-w-0 flex-shrink-0">
+                <div class="phase-indicator">1</div>
+                <span class="text-sm font-medium text-gray-600">Research & Brief</span>
+              </div>
+              <div class="text-2xl text-gray-400">→</div>
+              <div class="flex flex-col items-center space-y-2 min-w-0 flex-shrink-0">
+                <div class="phase-indicator">2</div>
+                <span class="text-sm font-medium text-gray-600">PRD Creation</span>
+              </div>
+              <div class="text-2xl text-gray-400">→</div>
+              <div class="flex flex-col items-center space-y-2 min-w-0 flex-shrink-0">
+                <div class="phase-indicator">3</div>
+                <span class="text-sm font-medium text-gray-600">Architecture</span>
+              </div>
+              <div class="text-2xl text-gray-400">→</div>
+              <div class="flex flex-col items-center space-y-2 min-w-0 flex-shrink-0">
+                <div class="phase-indicator">4</div>
+                <span class="text-sm font-medium text-gray-600">UX Design</span>
+              </div>
+              <div class="text-2xl text-gray-400">→</div>
+              <div class="flex flex-col items-center space-y-2 min-w-0 flex-shrink-0">
+                <div class="phase-indicator">5</div>
+                <span class="text-sm font-medium text-gray-600">Story Sharding</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Agent Grid Cards -->
+          <div class="mb-12">
+            <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center">🤖 Planning Phase AI Agents</h3>
+            <div class="responsive-grid">
+              
+              <!-- Analyst Agent -->
+              <div class="agent-card p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-2xl">📊</div>
+                  <div>
+                    <h4 class="font-bold text-lg text-gray-800">Analyst</h4>
+                    <p class="text-sm text-gray-600">Research & Analysis</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 mb-4">Market research, brainstorming, project analysis, and competitive landscape evaluation.</p>
+                <div class="space-y-2">
+                  <div class="command-box">
+                    <div class="command-text">@analyst brainstorm "task management app"</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                  <div class="command-box">
+                    <div class="command-text">@analyst create-project-brief</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PM Agent -->
+              <div class="agent-card p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-2xl">📋</div>
+                  <div>
+                    <h4 class="font-bold text-lg text-gray-800">Product Manager</h4>
+                    <p class="text-sm text-gray-600">Requirements & Planning</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 mb-4">Product Requirements Documents (PRD), user stories, epics, and technical assumptions.</p>
+                <div class="space-y-2">
+                  <div class="command-box">
+                    <div class="command-text">@pm create-doc prd</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                  <div class="command-box">
+                    <div class="command-text">@pm brownfield-create-epic</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- UX Expert Agent -->
+              <div class="agent-card p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-2xl">🎨</div>
+                  <div>
+                    <h4 class="font-bold text-lg text-gray-800">UX Expert</h4>
+                    <p class="text-sm text-gray-600">UI/UX Design</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 mb-4">User flows, wireframes, component library, design system specifications.</p>
+                <div class="space-y-2">
+                  <div class="command-box">
+                    <div class="command-text">@ux-expert create-front-end-spec</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                  <div class="command-box">
+                    <div class="command-text">@ux-expert generate-ui-prompt</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Architect Agent -->
+              <div class="agent-card p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-2xl">🏗️</div>
+                  <div>
+                    <h4 class="font-bold text-lg text-gray-800">Architect</h4>
+                    <p class="text-sm text-gray-600">Technical Architecture</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 mb-4">Tech stack, system design, API specifications, database schema, deployment strategy.</p>
+                <div class="space-y-2">
+                  <div class="command-box">
+                    <div class="command-text">@architect create-doc architecture</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                  <div class="command-box">
+                    <div class="command-text">@architect document-project</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- DevOps Agent - CRITICAL MISSING COMPONENT -->
+              <div class="agent-card p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-2xl">🚀</div>
+                  <div>
+                    <h4 class="font-bold text-lg text-gray-800">DevOps</h4>
+                    <p class="text-sm text-gray-600">Deployment & Operations</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 mb-4">Build automation, deployment strategies, monitoring, release management, and infrastructure as code.</p>
+                <div class="space-y-2">
+                  <div class="command-box">
+                    <div class="command-text">@devops build --environment production</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                  <div class="command-box">
+                    <div class="command-text">@devops deploy --strategy blue-green</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                  <div class="command-box">
+                    <div class="command-text">@devops release --environment production --version 1.0.0</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Product Owner Agent -->
+              <div class="agent-card p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-2xl">✅</div>
+                  <div>
+                    <h4 class="font-bold text-lg text-gray-800">Product Owner</h4>
+                    <p class="text-sm text-gray-600">Validation & Management</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 mb-4">Document validation, story sharding, and product backlog management.</p>
+                <div class="space-y-2">
+                  <div class="command-box">
+                    <div class="command-text">@po execute-checklist-po</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                  <div class="command-box">
+                    <div class="command-text">@po shard docs/prd.md to prd</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Greenfield Planning Workflow (Default) -->
+          <div id="greenfield-planning" class="workflow-selector active">
+            
+            <!-- Step 1: Project Analysis & Brief -->
+            <div class="mb-8 p-6 border-l-4 border-blue-500 bg-blue-50 rounded-lg">
+              <h3 class="text-2xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                <div class="phase-indicator bg-blue-600">1</div>
+                Project Analysis & Brief
+              </h3>
+              <div class="description-box p-4 rounded-lg mb-4">
+                <p class="text-gray-700">Start with market research and project brainstorming. Create a comprehensive project brief that defines the problem statement, target users, success metrics, and MVP scope.</p>
+              </div>
+              
+              <div class="space-y-4">
+                <h4 class="font-semibold text-gray-800">Commands:</h4>
+                <div class="command-box">
+                  <div class="command-text">@analyst brainstorm "I want to build a task management app"</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+                <div class="command-box">
+                  <div class="command-text">@analyst create-project-brief</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+              </div>
+              
+              <div class="document-output p-4 rounded-lg mt-4">
+                <p class="font-semibold mb-2">📄 Document Output: <span class="filename">project-brief.md</span></p>
+                <p class="text-gray-600">Contains: Problem statement, target users, success metrics, MVP scope, competitive analysis</p>
+                <p class="text-sm text-gray-500 mt-2">📂 Save Location: <code class="bg-gray-200 px-2 py-1 rounded">docs/project-brief.md</code></p>
+              </div>
+            </div>
+
+            <!-- Step 2: Product Requirements Document -->
+            <div class="mb-8 p-6 border-l-4 border-green-500 bg-green-50 rounded-lg">
+              <h3 class="text-2xl font-semibold text-green-800 mb-4 flex items-center gap-3">
+                <div class="phase-indicator bg-green-600">2</div>
+                Product Requirements Document
+              </h3>
+              <div class="description-box p-4 rounded-lg mb-4">
+                <p class="text-gray-700">Create detailed product requirements with user stories, epics, technical assumptions, and acceptance criteria.</p>
+              </div>
+              
+              <div class="space-y-4">
+                <h4 class="font-semibold text-gray-800">Commands:</h4>
+                <div class="command-box">
+                  <div class="command-text">@pm create-doc prd</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+              </div>
+              
+              <div class="document-output p-4 rounded-lg mt-4">
+                <p class="font-semibold mb-2">📄 Document Output: <span class="filename">prd.md</span></p>
+                <p class="text-gray-600">Contains: Goals, requirements, user stories, epics, technical assumptions</p>
+                <p class="text-sm text-gray-500 mt-2">📂 Save Location: <code class="bg-gray-200 px-2 py-1 rounded">docs/prd.md</code></p>
+              </div>
+            </div>
+
+            <!-- Step 3: Technical Architecture -->
+            <div class="mb-8 p-6 border-l-4 border-yellow-500 bg-yellow-50 rounded-lg">
+              <h3 class="text-2xl font-semibold text-yellow-800 mb-4 flex items-center gap-3">
+                <div class="phase-indicator bg-yellow-600">3</div>
+                Technical Architecture
+              </h3>
+              <div class="description-box p-4 rounded-lg mb-4">
+                <p class="text-gray-700">Design the technical architecture including tech stack, system components, database schema, and API specifications.</p>
+              </div>
+              
+              <div class="space-y-4">
+                <h4 class="font-semibold text-gray-800">Commands:</h4>
+                <div class="command-box">
+                  <div class="command-text"># For full-stack projects
+@architect create-doc fullstack-architecture
+
+# For backend-only
+@architect create-doc architecture
+
+# For frontend-only  
+@architect create-doc front-end-architecture</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+              </div>
+              
+              <div class="document-output p-4 rounded-lg mt-4">
+                <p class="font-semibold mb-2">📄 Document Output: <span class="filename">architecture.md</span> or <span class="filename">fullstack-architecture.md</span></p>
+                <p class="text-gray-600">Contains: Tech stack, components, database schema, API specs, deployment strategy</p>
+                <p class="text-sm text-gray-500 mt-2">📂 Save Location: <code class="bg-gray-200 px-2 py-1 rounded">docs/architecture.md</code></p>
+              </div>
+            </div>
+
+            <!-- Step 4: UX Design (Optional) -->
+            <div class="mb-8 p-6 border-l-4 border-purple-500 bg-purple-50 rounded-lg">
+              <h3 class="text-2xl font-semibold text-purple-800 mb-4 flex items-center gap-3">
+                <div class="phase-indicator bg-purple-600">4</div>
+                UI/UX Specification (If UI Required)
+              </h3>
+              <div class="description-box p-4 rounded-lg mb-4">
+                <p class="text-gray-700">Create user interface specifications with user flows, wireframes, component library, and design system.</p>
+              </div>
+              
+              <div class="space-y-4">
+                <h4 class="font-semibold text-gray-800">Commands:</h4>
+                <div class="command-box">
+                  <div class="command-text">@ux-expert create-front-end-spec</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+                <div class="command-box">
+                  <div class="command-text"># Optional: Generate AI UI prompt for v0 or Lovable
+@ux-expert generate-ui-prompt</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+              </div>
+              
+              <div class="document-output p-4 rounded-lg mt-4">
+                <p class="font-semibold mb-2">📄 Document Output: <span class="filename">front-end-spec.md</span></p>
+                <p class="text-gray-600">Contains: User flows, wireframes, component library, design system</p>
+                <p class="text-sm text-gray-500 mt-2">📂 Save Location: <code class="bg-gray-200 px-2 py-1 rounded">docs/front-end-spec.md</code></p>
+              </div>
+            </div>
+
+            <!-- Step 5: Story Sharding -->
+            <div class="mb-8 p-6 border-l-4 border-indigo-500 bg-indigo-50 rounded-lg">
+              <h3 class="text-2xl font-semibold text-indigo-800 mb-4 flex items-center gap-3">
+                <div class="phase-indicator bg-indigo-600">5</div>
+                Document Validation & Story Sharding
+              </h3>
+              <div class="description-box p-4 rounded-lg mb-4">
+                <p class="text-gray-700">Validate all documents for consistency and completeness, then shard them into manageable development stories.</p>
+              </div>
+              
+              <div class="space-y-4">
+                <h4 class="font-semibold text-gray-800">Validation Commands:</h4>
+                <div class="command-box">
+                  <div class="command-text">@po execute-checklist-po</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+                
+                <h4 class="font-semibold text-gray-800 mt-6">Sharding Commands:</h4>
+                <div class="command-box">
+                  <div class="command-text"># Using BMAD CLI tool
+npx bmad-method shard-docs --prd ./prd.md --architecture ./architecture.md --ux ./front-end-spec.md --output ./stories</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+                
+                <div class="command-box">
+                  <div class="command-text"># Using PO agent (Alternative)
+@po shard docs/prd.md to prd
+@po shard docs/architecture.md to architecture</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+              </div>
+              
+              <div class="document-output p-4 rounded-lg mt-4">
+                <p class="font-semibold mb-2">📄 Sharded Documents Output:</p>
+                <ul class="text-gray-600 space-y-1">
+                  <li>📂 <span class="filename">docs/prd/</span> - PRD broken into manageable sections</li>
+                  <li>📂 <span class="filename">docs/architecture/</span> - Architecture in digestible pieces</li>
+                  <li>📂 <span class="filename">docs/stories/</span> - Ready for development stories</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Transition to Development -->
+            <div class="transition-box p-6 rounded-lg mb-8 text-center">
+              <h3 class="text-2xl font-bold text-white mb-4">🎯 Planning Phase Complete!</h3>
+              <p class="text-white/90 mb-4">All planning documents are created and validated. Ready to transition to Development Cycle.</p>
+              <div class="warning-box p-4 rounded-lg">
+                <p class="font-semibold">⚠️ Critical Transition:</p>
+                <p>You MUST switch to your IDE (Cursor, VS Code, etc.) for the development phase. Web UI cannot handle file operations.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Brownfield Planning Workflow -->
+          <div id="brownfield-planning" class="workflow-selector">
+            
+            <div class="description-box p-6 rounded-lg mb-8">
+              <h3 class="text-2xl font-semibold text-gray-800 mb-4">🏗️ Brownfield Planning Process</h3>
+              <p class="text-gray-700 mb-4">Enhancing existing projects requires careful analysis of the current system before planning new features.</p>
+              
+              <!-- Enhancement Scope Decision -->
+              <div class="bg-amber-50 border border-amber-300 p-4 rounded-lg">
+                <h4 class="font-semibold text-amber-800 mb-2">🤔 First Decision: Enhancement Scope</h4>
+                <ul class="text-amber-900 space-y-2">
+                  <li><strong>Single Story (&lt; 4 hours):</strong> Quick story creation</li>
+                  <li><strong>Small Feature (1-3 stories):</strong> Epic creation</li>
+                  <li><strong>Major Enhancement:</strong> Full workflow with architecture</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Codebase Analysis Section -->
+            <div class="mb-8 p-6 border-l-4 border-orange-500 bg-orange-50 rounded-lg">
+              <h3 class="text-2xl font-semibold text-orange-800 mb-4 flex items-center gap-3">
+                <div class="phase-indicator bg-orange-600">1</div>
+                Codebase Analysis
+              </h3>
+              
+              <div class="description-box p-4 rounded-lg mb-4">
+                <p class="text-gray-700">Analyze existing codebase structure, dependencies, and technical debt before planning enhancements.</p>
+              </div>
+
+              <div class="space-y-4">
+                <h4 class="font-semibold text-gray-800">Flattener Tool Analysis:</h4>
+                <div class="command-box">
+                  <div class="command-text">npx bmad-method flatten --analyze --output ./analysis-report.xml</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+                
+                <h4 class="font-semibold text-gray-800 mt-6">Architect Analysis:</h4>
+                <div class="command-box">
+                  <div class="command-text">@architect document-project</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+                <div class="warning-box p-4 rounded-lg mt-4">
+                  <p class="font-semibold">⚠️ Critical:</p>
+                  <p>Upload your entire project (or provide GitHub repository URL) so the Architect analyzes real code, not assumptions.</p>
+                </div>
+              </div>
+              
+              <div class="document-output p-4 rounded-lg mt-4">
+                <p class="font-semibold mb-2">📄 Document Output: <span class="filename">brownfield-architecture.md</span></p>
+                <p class="text-gray-600">Contains: Current state analysis, tech debt, integration points, constraints</p>
+              </div>
+            </div>
+
+            <!-- Enhancement PRD Creation -->
+            <div class="mb-8 p-6 border-l-4 border-green-500 bg-green-50 rounded-lg">
+              <h3 class="text-2xl font-semibold text-green-800 mb-4 flex items-center gap-3">
+                <div class="phase-indicator bg-green-600">2</div>
+                Enhancement PRD
+              </h3>
+              
+              <div class="description-box p-4 rounded-lg mb-4">
+                <p class="text-gray-700">Create enhancement-specific PRD that considers existing system constraints and integration requirements.</p>
+              </div>
+
+              <div class="space-y-4">
+                <h4 class="font-semibold text-gray-800">Commands:</h4>
+                <div class="command-box">
+                  <div class="command-text">@pm create-doc brownfield-prd</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+              </div>
+              
+              <div class="document-output p-4 rounded-lg mt-4">
+                <p class="font-semibold mb-2">📄 Document Output: <span class="filename">prd.md</span></p>
+                <p class="text-gray-600">Contains: Enhancement scope, compatibility requirements, integration strategy</p>
+              </div>
+            </div>
+
+            <!-- Impact Analysis -->
+            <div class="mb-8 p-6 border-l-4 border-purple-500 bg-purple-50 rounded-lg">
+              <h3 class="text-2xl font-semibold text-purple-800 mb-4 flex items-center gap-3">
+                <div class="phase-indicator bg-purple-600">3</div>
+                Impact Analysis & Architecture Updates
+              </h3>
+              
+              <div class="description-box p-4 rounded-lg mb-4">
+                <p class="text-gray-700">Assess the impact of changes on existing systems and update architecture accordingly.</p>
+              </div>
+
+              <div class="space-y-4">
+                <h4 class="font-semibold text-gray-800">Commands:</h4>
+                <div class="command-box">
+                  <div class="command-text">@architect create-doc brownfield-architecture</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+              </div>
+              
+              <div class="document-output p-4 rounded-lg mt-4">
+                <p class="font-semibold mb-2">📄 Document Output: <span class="filename">architecture.md</span></p>
+                <p class="text-gray-600">Contains: Integration approach, compatibility measures, rollback strategy</p>
+              </div>
+            </div>
+
+            <!-- Validation for Brownfield -->
+            <div class="mb-8 p-6 border-l-4 border-indigo-500 bg-indigo-50 rounded-lg">
+              <h3 class="text-2xl font-semibold text-indigo-800 mb-4 flex items-center gap-3">
+                <div class="phase-indicator bg-indigo-600">4</div>
+                Brownfield Validation
+              </h3>
+              
+              <div class="description-box p-4 rounded-lg mb-4">
+                <p class="text-gray-700">Validate integration safety, compatibility, and rollback procedures for brownfield enhancements.</p>
+              </div>
+
+              <div class="space-y-4">
+                <h4 class="font-semibold text-gray-800">Commands:</h4>
+                <div class="command-box">
+                  <div class="command-text">@po execute-checklist-po</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+              </div>
+              
+              <div class="success-box p-4 rounded-lg mt-4">
+                <p class="font-semibold">✅ Focus Areas:</p>
+                <ul class="checklist mt-2">
+                  <li>Integration safety</li>
+                  <li>Compatibility with existing features</li>
+                  <li>Rollback procedures</li>
+                  <li>Database migration safety</li>
+                  <li>API backwards compatibility</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DEVELOPMENT CYCLE TAB CONTENT -->
+        <div id="development-tab" class="tab-content">
+          
+          <!-- Workflow Selector for Development -->
+          <div class="mb-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">🔨 Development Cycle Workflows</h2>
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+              <button 
+                onclick="selectWorkflow('greenfield-development')" 
+                id="greenfield-development-btn"
+                class="workflow-btn active px-6 py-3 rounded-xl font-semibold bg-gradient-to-r from-emerald-500 to-emerald-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                🌱 Greenfield Development
+              </button>
+              <button 
+                onclick="selectWorkflow('brownfield-development')" 
+                id="brownfield-development-btn"
+                class="workflow-btn px-6 py-3 rounded-xl font-semibold bg-gray-200 text-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                🏗️ Brownfield Development
+              </button>
+            </div>
+          </div>
+
+          <!-- Development Team Agent Cards -->
+          <div class="mb-12">
+            <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center">🤖 Development Cycle AI Agents</h3>
+            <div class="responsive-grid">
+              
+              <!-- Scrum Master Agent -->
+              <div class="agent-card p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-2xl">📊</div>
+                  <div>
+                    <h4 class="font-bold text-lg text-gray-800">Scrum Master</h4>
+                    <p class="text-sm text-gray-600">Story Creation & Sprint Management</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 mb-4">Creates user stories from sharded documents, manages sprint planning, and facilitates daily standups.</p>
+                <div class="space-y-2">
+                  <div class="command-box">
+                    <div class="command-text">@sm *create</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                  <div class="command-box">
+                    <div class="command-text">@sm create-next-story</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                  <div class="command-box">
+                    <div class="command-text">@sm daily-standup --sprint 1</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Developer Agent -->
+              <div class="agent-card p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-2xl">💻</div>
+                  <div>
+                    <h4 class="font-bold text-lg text-gray-800">Developer</h4>
+                    <p class="text-sm text-gray-600">Code Implementation</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 mb-4">Implements features from user stories, writes tests, creates/modifies files, and commits work.</p>
+                <div class="space-y-2">
+                  <div class="command-box">
+                    <div class="command-text">@dev implement-story</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                  <div class="command-box">
+                    <div class="command-text">@dev commit-work --story USER-001-login-feature --message "Implement login form validation"</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- QA Engineer Agent -->
+              <div class="agent-card p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center text-2xl">🧪</div>
+                  <div>
+                    <h4 class="font-bold text-lg text-gray-800">QA Engineer</h4>
+                    <p class="text-sm text-gray-600">Quality Assurance & Testing</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 mb-4">Code review, testing, quality assurance, and bug reporting with automated test generation.</p>
+                <div class="space-y-2">
+                  <div class="command-box">
+                    <div class="command-text">@qa review-story docs/stories/story-1.1.md</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                  <div class="command-box">
+                    <div class="command-text">@qa review-pr --pr 123 --checklist ./review-checklist.md</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- DevOps Agent (Development Phase) -->
+              <div class="agent-card p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-2xl">🚀</div>
+                  <div>
+                    <h4 class="font-bold text-lg text-gray-800">DevOps</h4>
+                    <p class="text-sm text-gray-600">Build, Deploy & Monitor</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 mb-4">Automated builds, deployments, monitoring, and release management with multiple deployment strategies.</p>
+                <div class="space-y-2">
+                  <div class="command-box">
+                    <div class="command-text">@devops deploy --environment staging --version 1.0.0</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                  <div class="command-box">
+                    <div class="command-text">@devops deploy --strategy canary --feature USER-001 --percentage 10</div>
+                    <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Greenfield Development Workflow (Default) -->
+          <div id="greenfield-development" class="workflow-selector active">
+            
+            <div class="description-box p-6 rounded-lg mb-8">
+              <h3 class="text-2xl font-semibold text-gray-800 mb-4">🌱 Greenfield Development Process</h3>
+              <p class="text-gray-700">Iterative story implementation with clean context management between agents.</p>
+              <div class="warning-box p-4 rounded-lg mt-4">
+                <p class="font-semibold">⚠️ Critical Context Management:</p>
+                <p>ALWAYS start a new chat between SM, Dev, and QA work to maintain clean context windows!</p>
+              </div>
+            </div>
+
+            <!-- Story Creation Process -->
+            <div class="mb-8 p-6 border-l-4 border-green-500 bg-green-50 rounded-lg">
+              <h3 class="text-2xl font-semibold text-green-800 mb-4 flex items-center gap-3">
+                <div class="phase-indicator bg-green-600">1</div>
+                Story Creation
+              </h3>
+              <div class="description-box p-4 rounded-lg mb-4">
+                <p class="text-gray-700"><strong>Start NEW CLEAN CHAT</strong> - Create user stories from sharded PRD documents.</p>
+              </div>
+              
+              <div class="space-y-4">
+                <h4 class="font-semibold text-gray-800">Commands:</h4>
+                <div class="command-box">
+                  <div class="command-text"># For sharded PRD (most common)
+@sm *create
+
+# For brownfield without sharding
+@sm
+# Then use brownfield-create-story task</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+              </div>
+              
+              <div class="document-output p-4 rounded-lg mt-4">
+                <p class="font-semibold mb-2">📄 Document Output: <span class="filename">story-1.1.md</span> in <code class="bg-gray-200 px-2 py-1 rounded">docs/stories/</code></p>
+                <p class="text-gray-600">Status: Draft → Review & approve → Approved</p>
+                <div class="mt-4">
+                  <p class="font-semibold mb-2">Story Structure:</p>
+                  <ul class="checklist">
+                    <li>User story (As a... I want... So that...)</li>
+                    <li>Acceptance criteria</li>
+                    <li>Tasks/Subtasks checklist</li>
+                    <li>Dev notes with technical context</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Story Implementation Process -->
+            <div class="mb-8 p-6 border-l-4 border-blue-500 bg-blue-50 rounded-lg">
+              <h3 class="text-2xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                <div class="phase-indicator bg-blue-600">2</div>
+                Story Implementation
+              </h3>
+              <div class="description-box p-4 rounded-lg mb-4">
+                <p class="text-gray-700"><strong>Start NEW CLEAN CHAT</strong> - Implement the approved story with file operations and testing.</p>
+              </div>
+              
+              <div class="space-y-4">
+                <h4 class="font-semibold text-gray-800">Commands:</h4>
+                <div class="command-box">
+                  <div class="command-text">@dev
+# Agent asks which story to implement
+# Provide story file content or path</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+              </div>
+              
+              <div class="success-box p-4 rounded-lg mt-4">
+                <p class="font-semibold mb-2">✅ Dev Actions:</p>
+                <ul class="checklist">
+                  <li>Implement all tasks/subtasks</li>
+                  <li>Create/modify files</li>
+                  <li>Write tests</li>
+                  <li>Update File List in story</li>
+                  <li>Mark story as "Review" when complete</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- QA Review Process -->
+            <div class="mb-8 p-6 border-l-4 border-red-500 bg-red-50 rounded-lg">
+              <h3 class="text-2xl font-semibold text-red-800 mb-4 flex items-center gap-3">
+                <div class="phase-indicator bg-red-600">3</div>
+                QA Review (Recommended)
+              </h3>
+              <div class="description-box p-4 rounded-lg mb-4">
+                <p class="text-gray-700"><strong>Start NEW CLEAN CHAT</strong> - Quality assurance review and testing.</p>
+              </div>
+              
+              <div class="space-y-4">
+                <h4 class="font-semibold text-gray-800">Commands:</h4>
+                <div class="command-box">
+                  <div class="command-text">@qa review-story docs/stories/story-1.1.md</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+              </div>
+              
+              <div class="success-box p-4 rounded-lg mt-4">
+                <p class="font-semibold mb-2">✅ QA Actions:</p>
+                <ul class="checklist">
+                  <li>Senior dev code review</li>
+                  <li>Fix small issues directly</li>
+                  <li>Leave checklist for remaining items</li>
+                  <li>Update story status</li>
+                </ul>
+                <div class="description-box p-3 rounded-lg mt-4">
+                  <p>If QA leaves unchecked items, return to Dev (new chat) to address them.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- DevOps Deployment Process -->
+            <div class="mb-8 p-6 border-l-4 border-orange-500 bg-orange-50 rounded-lg">
+              <h3 class="text-2xl font-semibold text-orange-800 mb-4 flex items-center gap-3">
+                <div class="phase-indicator bg-orange-600">4</div>
+                Deployment & Release
+              </h3>
+              <div class="description-box p-4 rounded-lg mb-4">
+                <p class="text-gray-700">Deploy completed features using various deployment strategies.</p>
+              </div>
+              
+              <div class="space-y-4">
+                <h4 class="font-semibold text-gray-800">Build Commands:</h4>
+                <div class="command-box">
+                  <div class="command-text">@devops build --environment staging
+@devops build --environment production</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+                
+                <h4 class="font-semibold text-gray-800 mt-6">Deployment Strategies:</h4>
+                <div class="command-box">
+                  <div class="command-text"># Blue-Green Deployment
+@devops deploy --strategy blue-green --environment production --version 1.0.0
+
+# Canary Deployment (10% traffic)
+@devops deploy --strategy canary --feature USER-001 --percentage 10
+
+# Rolling Deployment
+@devops deploy --strategy rolling --environment staging --version 1.0.0</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+
+                <h4 class="font-semibold text-gray-800 mt-6">Monitoring & Release:</h4>
+                <div class="command-box">
+                  <div class="command-text">@devops release --environment production --version 1.0.0 --strategy blue-green
+@devops monitor --environment production --alerts-enabled</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cycle Completion -->
+            <div class="mb-8 p-6 border-l-4 border-indigo-500 bg-indigo-50 rounded-lg">
+              <h3 class="text-2xl font-semibold text-indigo-800 mb-4 flex items-center gap-3">
+                <div class="phase-indicator bg-indigo-600">5</div>
+                Repeat Cycle
+              </h3>
+              <div class="description-box p-4 rounded-lg mb-4">
+                <p class="text-gray-700">Continue the SM → Dev → QA → DevOps cycle for each story until all epic stories are complete.</p>
+              </div>
+              
+              <div class="warning-box p-4 rounded-lg">
+                <p class="font-semibold">⚠️ Remember:</p>
+                <p>Only 1 story in progress at a time. Complete each story before starting the next!</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Brownfield Development Workflow -->
+          <div id="brownfield-development" class="workflow-selector">
+            
+            <div class="description-box p-6 rounded-lg mb-8">
+              <h3 class="text-2xl font-semibold text-gray-800 mb-4">🏗️ Brownfield Development Process</h3>
+              <p class="text-gray-700">Enhanced development process for existing codebases with integration strategies and compatibility testing.</p>
+            </div>
+
+            <!-- Code Integration Strategy -->
+            <div class="mb-8 p-6 border-l-4 border-purple-500 bg-purple-50 rounded-lg">
+              <h3 class="text-2xl font-semibold text-purple-800 mb-4">🔗 Code Integration Strategies</h3>
+              <div class="responsive-grid">
+                <div class="success-box p-4 rounded-lg">
+                  <h4 class="font-semibold mb-2">✅ Progressive Integration</h4>
+                  <p class="text-sm">Gradual integration with feature flags and rollback capability.</p>
+                </div>
+                <div class="description-box p-4 rounded-lg">
+                  <h4 class="font-semibold mb-2">📋 Compatibility Testing</h4>
+                  <p class="text-sm">Automated testing for backwards compatibility and regression prevention.</p>
+                </div>
+                <div class="warning-box p-4 rounded-lg">
+                  <h4 class="font-semibold mb-2">⚠️ Legacy Integration</h4>
+                  <p class="text-sm">Careful integration with legacy systems and data migration strategies.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Regression Testing Workflow -->
+            <div class="mb-8 p-6 border-l-4 border-yellow-500 bg-yellow-50 rounded-lg">
+              <h3 class="text-2xl font-semibold text-yellow-800 mb-4">🧪 Enhanced Testing Workflows</h3>
+              
+              <div class="space-y-4">
+                <h4 class="font-semibold text-gray-800">Regression Testing:</h4>
+                <div class="command-box">
+                  <div class="command-text">@qa regression-test --scope affected-modules --baseline stable-branch
+@qa integration-test --environment staging --include legacy-systems</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+                
+                <h4 class="font-semibold text-gray-800 mt-6">Backwards Compatibility:</h4>
+                <div class="command-box">
+                  <div class="command-text">@qa compatibility-test --api-version 2.1 --client-versions "1.0,1.5,2.0"
+@qa database-migration-test --rollback-enabled</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Incremental Deployment -->
+            <div class="mb-8 p-6 border-l-4 border-green-500 bg-green-50 rounded-lg">
+              <h3 class="text-2xl font-semibold text-green-800 mb-4">🚀 Incremental Deployment Approaches</h3>
+              
+              <div class="space-y-4">
+                <h4 class="font-semibold text-gray-800">Feature Flag Deployment:</h4>
+                <div class="command-box">
+                  <div class="command-text">@devops deploy --feature-flag USER-PROFILE-V2 --percentage 5 --environment production
+@devops feature-flag --increase USER-PROFILE-V2 --percentage 25 --monitor-metrics</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+                
+                <h4 class="font-semibold text-gray-800 mt-6">Database Migrations:</h4>
+                <div class="command-box">
+                  <div class="command-text">@devops migrate --database main --version 1.2.0 --rollback-enabled
+@devops verify-migration --check-integrity --performance-baseline</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Command Reference Section -->
+        <div class="mb-12">
+          <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">⌨️ Quick Command Reference</h2>
+          <div class="responsive-grid">
+            
+            <!-- Web UI Commands -->
+            <div class="bg-gray-800 text-white p-6 rounded-xl">
+              <h3 class="text-xl font-semibold mb-4 text-blue-300">Web UI Commands (Planning)</h3>
+              <div class="space-y-2 text-sm font-mono">
+                <div>*analyst</div>
+                <div>*pm</div>
+                <div>*architect</div>
+                <div>*ux</div>
+                <div>/help</div>
+                <div>#bmad-orchestrator</div>
+              </div>
+            </div>
+
+            <!-- IDE Commands -->
+            <div class="bg-gray-800 text-white p-6 rounded-xl">
+              <h3 class="text-xl font-semibold mb-4 text-green-300">IDE Commands (Development)</h3>
+              <div class="space-y-2 text-sm font-mono">
+                <div>@sm [command]</div>
+                <div>@dev [command]</div>
+                <div>@qa [command]</div>
+                <div>@devops [command]</div>
+                <div>@bmad-master help</div>
+              </div>
+            </div>
+
+            <!-- Daily Development Commands -->
+            <div class="bg-gray-800 text-white p-6 rounded-xl">
+              <h3 class="text-xl font-semibold mb-4 text-yellow-300">Daily Development Commands</h3>
+              <div class="space-y-2 text-sm">
+                <div class="command-box">
+                  <div class="command-text">@sm daily-standup --sprint 1</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+                <div class="command-box">
+                  <div class="command-text">@dev commit-work --story USER-001-login-feature</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+                <div class="command-box">
+                  <div class="command-text">@qa review-pr --pr 123</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- DevOps Commands -->
+            <div class="bg-gray-800 text-white p-6 rounded-xl">
+              <h3 class="text-xl font-semibold mb-4 text-orange-300">DevOps Commands</h3>
+              <div class="space-y-2 text-sm">
+                <div class="command-box">
+                  <div class="command-text">@devops build --environment production</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+                <div class="command-box">
+                  <div class="command-text">@devops deploy --strategy blue-green</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+                <div class="command-box">
+                  <div class="command-text">@devops monitor --alerts-enabled</div>
+                  <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pro Tips & Best Practices -->
+        <div class="mb-12">
+          <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">💡 Pro Tips & Best Practices</h2>
+          
+          <div class="success-box p-6 rounded-lg mb-6">
+            <h3 class="text-xl font-semibold mb-4 text-green-800">✅ Best Practices</h3>
+            <ul class="checklist space-y-2">
+              <li>Keep PRD and Architecture docs as single source of truth</li>
+              <li>Let agents handle their specialized roles</li>
+              <li>Story files are the communication medium between agents</li>
+              <li>Commit frequently to track AI-generated changes</li>
+              <li>Use clean context management between agent phases</li>
+              <li>Test deployments with canary releases before full rollout</li>
+            </ul>
+          </div>
+
+          <div class="warning-box p-6 rounded-lg">
+            <h3 class="text-xl font-semibold mb-4 text-yellow-800">⚠️ Common Pitfalls to Avoid</h3>
+            <ul class="space-y-2">
+              <li>• Don't skip the planning phase</li>
+              <li>• Don't mix agent roles</li>
+              <li>• Don't forget to shard documents before development</li>
+              <li>• Don't modify story files manually</li>
+              <li>• Don't deploy to production without proper testing</li>
+              <li>• Don't ignore rollback procedures</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- File Structure Reference -->
+        <div class="mb-12">
+          <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">📂 Project Structure Reference</h2>
+          <div class="bg-gray-100 p-6 rounded-lg">
+            <h3 class="text-lg font-semibold mb-4">Expected Project Structure:</h3>
+            <pre class="text-sm bg-white p-4 rounded border overflow-x-auto"><code>project-root/
+├── docs/
+│   ├── project-brief.md
+│   ├── prd.md
+│   ├── architecture.md
+│   ├── front-end-spec.md
+│   ├── prd/              (sharded)
+│   ├── architecture/     (sharded)
+│   └── stories/          (user stories)
+├── src/                  (your code)
+└── tests/                (test files)</code></pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- JavaScript for Interactive Functionality -->
+    <script>
+      // Tab switching functionality
+      function showTab(tabId) {
+        // Hide all tab contents
+        document.querySelectorAll('.tab-content').forEach(content => {
+          content.classList.remove('active');
+        });
+        
+        // Remove active class from all tab buttons
+        document.querySelectorAll('.tab-button').forEach(btn => {
+          btn.classList.remove('active');
+          btn.setAttribute('aria-selected', 'false');
+        });
+        
+        // Show selected tab content
+        document.getElementById(tabId + '-tab').classList.add('active');
+        
+        // Activate selected tab button
+        document.getElementById('tab-' + tabId).classList.add('active');
+        document.getElementById('tab-' + tabId).setAttribute('aria-selected', 'true');
+      }
+
+      // Workflow selection functionality
+      function selectWorkflow(workflowId) {
+        // Get the parent tab (planning or development)
+        const isPlanning = workflowId.includes('planning');
+        const parentTab = isPlanning ? 'planning' : 'development';
+        
+        // Hide all workflow selectors in the parent tab
+        document.querySelectorAll(`#${parentTab}-tab .workflow-selector`).forEach(selector => {
+          selector.classList.remove('active');
+        });
+        
+        // Show selected workflow
+        document.getElementById(workflowId).classList.add('active');
+        
+        // Update workflow buttons
+        const prefix = isPlanning ? 'planning' : 'development';
+        document.querySelectorAll(`[id*="${prefix}-btn"]`).forEach(btn => {
+          btn.classList.remove('active');
+          btn.classList.remove('bg-gradient-to-r', 'from-emerald-500', 'to-emerald-600', 'text-white');
+          btn.classList.add('bg-gray-200', 'text-gray-700');
+        });
+        
+        const activeBtn = document.getElementById(workflowId + '-btn');
+        if (activeBtn) {
+          activeBtn.classList.add('active');
+          activeBtn.classList.remove('bg-gray-200', 'text-gray-700');
+          activeBtn.classList.add('bg-gradient-to-r', 'from-emerald-500', 'to-emerald-600', 'text-white');
+        }
+      }
+
+      // Command copy functionality
+      function copyCommand(button) {
+        const commandText = button.previousElementSibling.textContent;
+        
+        navigator.clipboard.writeText(commandText).then(() => {
+          // Visual feedback
+          button.textContent = 'Copied!';
+          button.classList.add('copied');
+          
+          // Reset after 2 seconds
+          setTimeout(() => {
+            button.textContent = 'Copy';
+            button.classList.remove('copied');
+          }, 2000);
+        }).catch(err => {
+          console.error('Failed to copy: ', err);
+          button.textContent = 'Error';
+          setTimeout(() => {
+            button.textContent = 'Copy';
+          }, 2000);
+        });
+      }
+
+      // Keyboard shortcuts
+      document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey || e.metaKey) {
+          switch(e.key) {
+            case '1':
+              e.preventDefault();
+              showTab('planning');
+              break;
+            case '2':
+              e.preventDefault();
+              showTab('development');
+              break;
+          }
+        }
+      });
+
+      // Initialize default state
+      document.addEventListener('DOMContentLoaded', function() {
+        // Set default tab
+        showTab('planning');
+        
+        // Set default workflows
+        selectWorkflow('greenfield-planning');
+        selectWorkflow('greenfield-development');
+      });
+    </script>
+  </body>
+</html>
