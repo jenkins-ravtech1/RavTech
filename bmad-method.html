@@ -441,33 +441,55 @@
             <h3 class="text-xl font-semibold text-gray-700 mb-4 text-center">🔄 Complete BMAD Workflow</h3>
             <div class="mermaid">
               graph TD
-                  A[Project Brief] --> B[Product Requirements/PRD]
-                  B --> B1[UI/UX Specification]
-                  B1 --> C[Technical Architecture]
-                  C --> C1[PO Validation]
-                  C1 --> C2[Document Sharding]
-                  C2 --> D[Story Creation]
-                  D --> E[Development/Implementation]
-                  E --> F[QA Review]
-                  F --> F1[Commit Changes]
-                  F1 --> G[DevOps Deployment]
-                  G --> H{More Stories?}
-                  H -->|Yes| D
-                  H -->|No| I[Project Complete]
+                  subgraph planning ["📋 Planning Phase"]
+                      direction TB
+                      A[Project Brief] --> B[Product Requirements/PRD]
+                      B --> B1[UI/UX Specification]
+                      B1 --> C[Technical Architecture]
+                      C --> C1[PO Validation]
+                      C1 --> C2[Document Sharding]
+                      
+                      A1[Analyst] -.-> A
+                      PM[Product Manager] -.-> B
+                      UX[UX Expert] -.-> B1
+                      AR[Architect] -.-> C
+                      PO[Product Owner] -.-> C1
+                      PO -.-> C2
+                  end
                   
-                  A1[Analyst] -.-> A
-                  PM[Product Manager] -.-> B
-                  UX[UX Expert] -.-> B1
-                  AR[Architect] -.-> C
-                  PO[Product Owner] -.-> C1
-                  PO -.-> C2
-                  SM[Scrum Master] -.-> D
-                  QA[QA Engineer] -.-> F
-                  DO[DevOps] -.-> G
+                  planning --> development
                   
-                  DEV[Developer]
-                  DEV -.-> E
-                  DEV -.-> F1
+                  subgraph development ["⚙️ Development Cycle"]
+                      direction TB
+                      D[Story Creation] --> E[Development/Implementation]
+                      E --> F[QA Review]
+                      F --> F1[Commit Changes]
+                      F1 --> G[DevOps Deployment]
+                      G --> H{More Stories?}
+                      H -->|Yes| D
+                      
+                      SM[Scrum Master] -.-> D
+                      DEV[Developer] -.-> E
+                      DEV -.-> F1
+                      QA[QA Engineer] -.-> F
+                      DO[DevOps] -.-> G
+                  end
+                  
+                  development --> I[Project Complete]
+                  
+                  style planning fill:#e8f4f8,stroke:#2563eb,stroke-width:2px
+                  style development fill:#f0fdf4,stroke:#16a34a,stroke-width:2px
+                  
+                  %% Agent/Persona styling
+                  style A1 fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
+                  style PM fill:#dcfce7,stroke:#22c55e,stroke-width:2px
+                  style UX fill:#f3e8ff,stroke:#a855f7,stroke-width:2px
+                  style AR fill:#fef3c7,stroke:#eab308,stroke-width:2px
+                  style PO fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
+                  style SM fill:#dcfce7,stroke:#16a34a,stroke-width:2px
+                  style DEV fill:#dbeafe,stroke:#2563eb,stroke-width:2px
+                  style QA fill:#fce7f3,stroke:#ec4899,stroke-width:2px
+                  style DO fill:#fed7aa,stroke:#ea580c,stroke-width:2px
             </div>
           </div>
 
