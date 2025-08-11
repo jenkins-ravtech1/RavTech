@@ -155,14 +155,14 @@
     </div>
     <div class="max-w-7xl mx-auto px-4 pb-16">
       <div
-        class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl ring-1 ring-black/5 p-10 lg:p-14 space-y-20"
+        class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl ring-1 ring-black/5 p-6 lg:p-8 space-y-8"
       >
         <!-- Introduction Section -->
         <section
           id="intro"
           role="tabpanel"
           aria-labelledby="tab-intro"
-          class="active space-y-10"
+          class="active space-y-6"
         >
           <h2
             class="text-3xl font-bold tracking-tight bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent mb-6 flex items-center gap-3"
@@ -364,7 +364,7 @@
           id="greenfield"
           role="tabpanel"
           aria-labelledby="tab-greenfield"
-          class="space-y-10"
+          class="space-y-6"
         >
           <h2
             class="text-3xl font-bold tracking-tight bg-gradient-to-r from-emerald-600 to-emerald-500 bg-clip-text text-transparent mb-3 flex items-center gap-3"
@@ -566,10 +566,14 @@
             <div
               class="cmd-line whitespace-pre leading-relaxed bg-slate-900/90 text-slate-100 px-4 py-3 rounded-lg border border-slate-800 font-mono text-xs md:text-sm"
             >
-              # For full-stack projects /architect create-doc
-              fullstack-architecture # For backend-only /architect create-doc
-              architecture # For frontend-only /architect create-doc
-              front-end-architecture
+# For full-stack projects
+/architect create-doc fullstack-architecture
+
+# For backend-only
+/architect create-doc architecture
+
+# For frontend-only
+/architect create-doc front-end-architecture
             </div>
             <div
               class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"
@@ -670,9 +674,12 @@
             <div
               class="cmd-line whitespace-pre leading-relaxed bg-slate-900/90 text-slate-100 px-4 py-3 rounded-lg border border-slate-800 font-mono text-xs md:text-sm"
             >
-              # Option A: Using PO agent @po shard docs/prd.md to prd @po shard
-              docs/architecture.md to architecture # Option B: Manual with task
-              # Drag shard-doc task + docs/prd.md into chat
+# Option A: Using PO agent
+@po shard docs/prd.md to prd
+@po shard docs/architecture.md to architecture
+
+# Option B: Manual with task
+# Drag shard-doc task + docs/prd.md into chat
             </div>
             <div
               class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"
@@ -699,7 +706,7 @@
           id="brownfield"
           role="tabpanel"
           aria-labelledby="tab-brownfield"
-          class="space-y-10"
+          class="space-y-6"
         >
           <h2
             class="text-3xl font-bold tracking-tight bg-gradient-to-r from-amber-600 to-amber-500 bg-clip-text text-transparent mb-3 flex items-center gap-3"
@@ -1023,7 +1030,7 @@
           id="development"
           role="tabpanel"
           aria-labelledby="tab-development"
-          class="space-y-10"
+          class="space-y-6"
         >
           <h2
             class="text-3xl font-bold tracking-tight bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent mb-3 flex items-center gap-3"
@@ -1065,8 +1072,12 @@
             <div
               class="cmd-line whitespace-pre leading-relaxed bg-slate-900/90 text-slate-100 px-4 py-3 rounded-lg border border-slate-800 font-mono text-xs md:text-sm"
             >
-              # For sharded PRD (most common) @sm *create # For brownfield
-              without sharding @sm # Then use brownfield-create-story task
+# For sharded PRD (most common)
+@sm *create
+
+# For brownfield without sharding
+@sm
+# Then use brownfield-create-story task
             </div>
             <div
               class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"
@@ -1116,8 +1127,9 @@
             <div
               class="cmd-line whitespace-pre leading-relaxed bg-slate-900/90 text-slate-100 px-4 py-3 rounded-lg border border-slate-800 font-mono text-xs md:text-sm"
             >
-              @dev # Agent asks which story to implement # Provide story file
-              content or path
+@dev
+# Agent asks which story to implement
+# Provide story file content or path
             </div>
             <div
               class="rounded-lg bg-emerald-50 border border-emerald-300 px-4 py-3 text-emerald-800 text-sm"
@@ -1206,7 +1218,7 @@
           id="commands"
           role="tabpanel"
           aria-labelledby="tab-commands"
-          class="space-y-10"
+          class="space-y-6"
         >
           <h2
             class="text-3xl font-bold tracking-tight bg-gradient-to-r from-slate-700 to-slate-500 bg-clip-text text-transparent mb-3 flex items-center gap-3"
