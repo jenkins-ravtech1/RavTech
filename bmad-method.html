@@ -475,29 +475,44 @@
                   subgraph development ["⚙️ Development Cycle"]
                       direction TB
                       
-                      %% Vertical workflow
-                      D["📝 Story Creation"]
-                      E["💻 Development/Implementation"]
-                      F["🧪 QA Review"]
-                      F1["📦 Commit Changes"]
-                      G["🚀 DevOps Deployment"]
-                      H{"🔄 More Stories?"}
-                      I["🎉 Project Complete"]
+                      %% Left side: Vertical workflow
+                      subgraph workflow [" "]
+                          direction TB
+                          D["📝 Story Creation"]
+                          E["💻 Development/Implementation"]
+                          F["🧪 QA Review"]
+                          F1["📦 Commit Changes"]
+                          G["🚀 DevOps Deployment"]
+                          H{"🔄 More Stories?"}
+                          I["🎉 Project Complete"]
+                          
+                          D --> E
+                          E --> F
+                          F --> F1
+                          F1 --> G
+                          G --> H
+                          H -->|Yes| D
+                          H -->|No| I
+                      end
                       
-                      D --> E
-                      E --> F
-                      F --> F1
-                      F1 --> G
-                      G --> H
-                      H -->|Yes| D
-                      H -->|No| I
+                      %% Right side: Personas
+                      subgraph personas [" "]
+                          direction TB
+                          SM["👤 Scrum Master"]
+                          DEV["👤 Developer"]
+                          QA1["👤 QA Engineer"]
+                          DO["👤 DevOps"]
+                      end
                       
-                      %% Personas positioned to the side
-                      SM["👤 Scrum Master"] -.-> D
-                      DEV["👤 Developer"] -.-> E
+                      %% Connections from personas to workflow
+                      SM -.-> D
+                      DEV -.-> E
                       DEV -.-> F1
-                      QA1["👤 QA Engineer"] -.-> F
-                      DO["👤 DevOps"] -.-> G
+                      QA1 -.-> F
+                      DO -.-> G
+                      
+                      style workflow fill:transparent,stroke:transparent
+                      style personas fill:transparent,stroke:transparent
                   end
                   
                   style planning fill:#e8f4f8,stroke:#2563eb,stroke-width:3px
