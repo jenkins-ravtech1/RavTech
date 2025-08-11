@@ -441,23 +441,33 @@
             <h3 class="text-xl font-semibold text-gray-700 mb-4 text-center">🔄 Complete BMAD Workflow</h3>
             <div class="mermaid">
               graph TD
-                  A[Project Brief] --> B[Product Requirements]
-                  B --> C[Technical Architecture]
-                  C --> D[Story Creation]
-                  D --> E[Development]
+                  A[Project Brief] --> B[Product Requirements/PRD]
+                  B --> B1[UI/UX Specification]
+                  B1 --> C[Technical Architecture]
+                  C --> C1[PO Validation]
+                  C1 --> C2[Document Sharding]
+                  C2 --> D[Story Creation]
+                  D --> E[Development/Implementation]
                   E --> F[QA Review]
-                  F --> G[DevOps Deployment]
+                  F --> F1[Commit Changes]
+                  F1 --> G[DevOps Deployment]
                   G --> H{More Stories?}
                   H -->|Yes| D
                   H -->|No| I[Project Complete]
                   
                   A1[Analyst] -.-> A
                   PM[Product Manager] -.-> B
+                  UX[UX Expert] -.-> B1
                   AR[Architect] -.-> C
+                  PO[Product Owner] -.-> C1
+                  PO -.-> C2
                   SM[Scrum Master] -.-> D
-                  DEV[Developer] -.-> E
                   QA[QA Engineer] -.-> F
                   DO[DevOps] -.-> G
+                  
+                  DEV[Developer]
+                  DEV -.-> E
+                  DEV -.-> F1
             </div>
           </div>
 
